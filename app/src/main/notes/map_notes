@@ -1,0 +1,77 @@
+Initialization:
+private FusedLocationProviderClient fusedLocationClient;
+private GoogleMap mMap;
+
+onViewCreated:
+ fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.First_Fragment);
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+                mMap = googleMap;
+
+            }
+  });
+
+
+ layout:
+ <?xml version="1.0" encoding="utf-8"?>
+ <!-- Root element: NestedScrollView -->
+ <!-- Used for scrolling content if it exceeds the screen size -->
+ <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     tools:context=".FirstFragment"
+     android:tag="first_fragment_tag">
+
+     <!-- Container: ConstraintLayout -->
+     <!-- A layout manager for arranging child views with constraints -->
+     <androidx.constraintlayout.widget.ConstraintLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:padding="16dp">
+
+
+
+         <!-- TextView for displaying longitude -->
+
+         <!-- TextView for displaying latitude -->
+
+         <!-- Button for triggering an update -->
+
+         <!-- Button for triggering an update -->
+
+         <TextView
+             android:id="@+id/textView"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="Google Map:"
+             android:textSize="20sp"
+             android:textStyle="bold"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent" />
+
+         <FrameLayout
+             android:id="@+id/frameLayout"
+             android:layout_width="421dp"
+             android:layout_height="686dp"
+             android:layout_marginTop="4dp"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintHorizontal_bias="0.444"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/textView">
+
+             <androidx.fragment.app.FragmentContainerView
+                 android:id="@+id/First_Fragment"
+                 android:name="com.google.android.gms.maps.SupportMapFragment"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 app:defaultNavHost="true" />
+
+
+         </FrameLayout>
+
+     </androidx.constraintlayout.widget.ConstraintLayout>
+ </androidx.core.widget.NestedScrollView>
