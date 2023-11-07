@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") // Apply the google maps plugin
 
 }
@@ -60,7 +61,11 @@ dependencies {
     // Navigation UI components
     implementation("androidx.navigation:navigation-ui:2.5.3")
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
-
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-analytics:21.3.0")
+    implementation("com.google.firebase:firebase-messaging:23.2.1")
+    implementation("com.google.firebase:firebase-storage:20.2.1")
     // Call API Package
     implementation("com.google.android.gms:play-services-cronet:18.0.1")
     // Display image package

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "467765592293",
+    "project_id": "lostpets-404413",
+    "storage_bucket": "lostpets-404413.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467765592293:android:8dbe6a1abb0df1e112540c",
+        "android_client_info": {
+          "package_name": "com.example.lostpets"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdRsXQkYi0c70ofHVk2y20mFP2tRvUSc0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
