@@ -14,7 +14,11 @@
         <action
             android:id="@+id/action_LoginFragment_to_RegisterFragment"
             app:destination="@id/RegisterFragment" />
+        <action
+            android:id="@+id/action_LoginFragment_to_HomePageFragment"
+            app:destination="@id/HomePageFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/RegisterFragment"
         android:name="com.example.lostpets.RegisterFragment"
@@ -24,5 +28,13 @@
         <action
             android:id="@+id/action_RegisterFragment_to_LoginFragment"
             app:destination="@id/LoginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/HomePageFragment"
+        android:name="com.example.lostpets.HomePageFragment"
+        android:label="HomePage Fragment"
+        tools:layout="@layout/fragment_home_page">
+
     </fragment>
 </navigation>

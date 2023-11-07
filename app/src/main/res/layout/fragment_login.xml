@@ -22,6 +22,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.793" />
 
+        <Button
+            android:id="@+id/button_login"
+            android:layout_width="144dp"
+            android:layout_height="49dp"
+            android:layout_marginBottom="32dp"
+            android:text="LogIn"
+            app:layout_constraintBottom_toTopOf="@+id/button_signup"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
