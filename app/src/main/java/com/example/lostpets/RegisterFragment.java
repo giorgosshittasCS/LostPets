@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.lostpets.Classes.User;
 import com.example.lostpets.databinding.FragmentRegisterBinding;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -73,10 +75,33 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                //make the api call to add the user.( calculate the max id and +1 that the new)
-                Log.d("test",editText_username.getText().toString());
-                NavHostFragment.findNavController(RegisterFragment.this)
-                        .navigate(R.id.action_RegisterFragment_to_LoginFragment);
+
+                try {
+                    String username = editText_username.getText().toString();
+                    String phone_number = editText_phone_number.getText().toString();
+                    String password = editText_password.getText().toString();
+
+                    Log.d("TEST_USERNAME",username.length() + " " + phone_number.length() + " " + password.length());
+
+                    if(username.equals("") || username==null || phone_number.equals("") || phone_number==null || password.equals("") || password==null)
+                        throw new Exception();
+                    User user = new User(username,phone_number,password);
+
+                    //make the api call to add the user.( calculate the max id and +1 that the new)
+//                    usersCollection.add(user)
+//                            .addOnSuccessListener(documentReference -> {
+//                                // Show a success message
+//                                Toast.makeText(requireContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
+//                            });
+
+                    NavHostFragment.findNavController(RegisterFragment.this)
+                            .navigate(R.id.action_RegisterFragment_to_LoginFragment);
+                }
+                catch(Exception e) {
+                    // Show a success message
+                    Toast.makeText(requireContext(), "There is empty TextBox", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
