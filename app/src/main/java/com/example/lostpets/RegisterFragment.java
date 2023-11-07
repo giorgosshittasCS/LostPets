@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,10 @@ import org.w3c.dom.Text;
  */
 public class RegisterFragment extends Fragment {
 
+
+    EditText editText_username;
+    EditText editText_phone_number;
+    EditText editText_password;
 
     private FirebaseFirestore db;
     private CollectionReference usersCollection;
@@ -51,6 +56,11 @@ public class RegisterFragment extends Fragment {
     ) {
 
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
+
+        editText_username = binding.editTextUsername;
+        editText_phone_number = binding.editTextPhoneNumber;
+        editText_password= binding.editTextPassword;
+
         db = FirebaseFirestore.getInstance();
         usersCollection = db.collection("users");
         return binding.getRoot();
@@ -62,15 +72,9 @@ public class RegisterFragment extends Fragment {
         binding.buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText UserName_edittext = (EditText)  view.findViewById(R.id.editTextUsername);
-                String username = UserName_edittext.getText().toString();
-                EditText PhoneNumber_edittext = (EditText)  view.findViewById(R.id.editTextPhoneNumber);
-                String phone_number = PhoneNumber_edittext.getText().toString();
-                EditText Password_edittext = (EditText)  view.findViewById(R.id.editTextPassword);
-                String password = Password_edittext.getText().toString();
 
                 //make the api call to add the user.( calculate the max id and +1 that the new)
-
+                Log.d("test",editText_username.getText().toString());
                 NavHostFragment.findNavController(RegisterFragment.this)
                         .navigate(R.id.action_RegisterFragment_to_LoginFragment);
             }
