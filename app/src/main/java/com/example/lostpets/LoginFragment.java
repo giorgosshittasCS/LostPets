@@ -12,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.lostpets.databinding.FragmentLoginBinding;
 
-//Heloooooooo JULIOOOO
 public class LoginFragment extends Fragment {
 
     private FragmentLoginBinding binding;
