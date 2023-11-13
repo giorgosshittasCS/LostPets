@@ -72,11 +72,14 @@ dependencies {
     implementation("com.google.android.gms:play-services-cronet:18.0.1")
     // Display image package
     implementation("com.squareup.picasso:picasso:2.8")
-
+    //for the toast
+    implementation("androidx.core:core-ktx:1.9.0")
     // JUnit for unit testing
     testImplementation("junit:junit:4.13.2")
     // AndroidX JUnit extensions
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     // Espresso for UI testing
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+
 }
