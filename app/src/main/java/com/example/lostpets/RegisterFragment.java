@@ -91,38 +91,38 @@ public class RegisterFragment extends Fragment {
                     if(username.equals("") || username==null || phone_number.equals("") || phone_number==null || password.equals("") || password==null) {
                         Toast toast = Toast.makeText(getContext().getApplicationContext(), "Fill Your Credentials", Toast.LENGTH_SHORT);
                         toast.show();
-                    }
+                    }else {
 
 
-                    // Create a query to filter the collection by the `title` attribute
-                    Query query = usersCollection.whereEqualTo("username", username);
+                        // Create a query to filter the collection by the `title` attribute
+                        Query query = usersCollection.whereEqualTo("username", username);
 
-                    // Execute the query and get the results
-                    Task<QuerySnapshot> task = query.get();
+                        // Execute the query and get the results
+                        Task<QuerySnapshot> task = query.get();
 
-                    task.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                        @Override
-                        public void onSuccess(QuerySnapshot querySnapshot) {
-                            // Check if any documents were found
-                            if (!querySnapshot.isEmpty()) {
-                                Toast toast = Toast.makeText(getContext().getApplicationContext(), "This user is already used", Toast.LENGTH_SHORT);
-                                toast.show();
-                            } else {
-                                User user = new User(username,phone_number,password);
-                                //make the api call to add the user.( calculate the max id and +1 that the new)
-                                usersCollection.add(user)
-                                    .addOnSuccessListener(documentReference -> {
-                                // Show a success message
-                                Toast.makeText(requireContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
-                            });
+                        task.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot querySnapshot) {
+                                // Check if any documents were found
+                                if (!querySnapshot.isEmpty()) {
+                                    Toast toast = Toast.makeText(getContext().getApplicationContext(), "This user is already used", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                } else {
+                                    User user = new User(username, phone_number, password);
+                                    //make the api call to add the user.( calculate the max id and +1 that the new)
+                                    usersCollection.add(user)
+                                            .addOnSuccessListener(documentReference -> {
+                                                // Show a success message
+                                                Toast.makeText(requireContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
+                                            });
+                                }
                             }
-                        }
-                    });
+                        });
 
 
-
-                    NavHostFragment.findNavController(RegisterFragment.this)
-                            .navigate(R.id.action_RegisterFragment_to_LoginFragment);
+                        NavHostFragment.findNavController(RegisterFragment.this)
+                                .navigate(R.id.action_RegisterFragment_to_LoginFragment);
+                    }
                 }
                 catch(Exception e) {
                     // Show a success message
