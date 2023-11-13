@@ -9,16 +9,25 @@
         android:layout_height="match_parent"
         tools:context=".HomePageFragment"
         >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
+        <ListView
+            android:id="@+id/petsView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/bottom_navigation_menu"
-            app:labelVisibilityMode="unlabeled"/>
+            android:layout_height="match_parent">
+
+        </ListView>
+
+    </RelativeLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        layout="@layout/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

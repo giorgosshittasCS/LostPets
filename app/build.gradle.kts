@@ -66,6 +66,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics:21.3.0")
     implementation("com.google.firebase:firebase-messaging:23.2.1")
     implementation("com.google.firebase:firebase-storage:20.2.1")
+    implementation("androidx.cardview:cardview:1.0.0")
+
     // Call API Package
     implementation("com.google.android.gms:play-services-cronet:18.0.1")
     // Display image package
