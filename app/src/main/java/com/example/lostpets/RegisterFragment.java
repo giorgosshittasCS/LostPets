@@ -15,8 +15,13 @@ import android.widget.Toast;
 
 import com.example.lostpets.Classes.User;
 import com.example.lostpets.databinding.FragmentRegisterBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 
@@ -50,6 +55,10 @@ public class RegisterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        db = FirebaseFirestore.getInstance();
+        usersCollection = db.collection("users");
+
+
     }
 
     public View onCreateView(
@@ -63,8 +72,6 @@ public class RegisterFragment extends Fragment {
         editText_phone_number = binding.editTextPhoneNumber;
         editText_password= binding.editTextPassword;
 
-        db = FirebaseFirestore.getInstance();
-        usersCollection = db.collection("users");
         return binding.getRoot();
 
     }
@@ -81,25 +88,45 @@ public class RegisterFragment extends Fragment {
                     String phone_number = editText_phone_number.getText().toString();
                     String password = editText_password.getText().toString();
 
-                    Log.d("TEST_USERNAME",username.length() + " " + phone_number.length() + " " + password.length());
+                    if(username.equals("") || username==null || phone_number.equals("") || phone_number==null || password.equals("") || password==null) {
+                        Toast toast = Toast.makeText(getContext().getApplicationContext(), "Fill Your Credentials", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
 
-                    if(username.equals("") || username==null || phone_number.equals("") || phone_number==null || password.equals("") || password==null)
-                        throw new Exception();
-                    User user = new User(username,phone_number,password);
 
-                    //make the api call to add the user.( calculate the max id and +1 that the new)
-//                    usersCollection.add(user)
-//                            .addOnSuccessListener(documentReference -> {
-//                                // Show a success message
-//                                Toast.makeText(requireContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
-//                            });
+                    // Create a query to filter the collection by the `title` attribute
+                    Query query = usersCollection.whereEqualTo("username", username);
+
+                    // Execute the query and get the results
+                    Task<QuerySnapshot> task = query.get();
+
+                    task.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot querySnapshot) {
+                            // Check if any documents were found
+                            if (!querySnapshot.isEmpty()) {
+                                Toast toast = Toast.makeText(getContext().getApplicationContext(), "This user is already used", Toast.LENGTH_SHORT);
+                                toast.show();
+                            } else {
+                                User user = new User(username,phone_number,password);
+                                //make the api call to add the user.( calculate the max id and +1 that the new)
+                                usersCollection.add(user)
+                                    .addOnSuccessListener(documentReference -> {
+                                // Show a success message
+                                Toast.makeText(requireContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
+                            });
+                            }
+                        }
+                    });
+
+
 
                     NavHostFragment.findNavController(RegisterFragment.this)
                             .navigate(R.id.action_RegisterFragment_to_LoginFragment);
                 }
                 catch(Exception e) {
                     // Show a success message
-                    Toast.makeText(requireContext(), "There is empty TextBox", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "something went wrong", Toast.LENGTH_SHORT).show();
                 }
 
             }
