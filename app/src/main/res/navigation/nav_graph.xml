@@ -30,6 +30,14 @@
             app:destination="@id/LoginFragment" />
 
     </fragment>
+    <fragment
+        android:id="@+id/RecordFragment"
+        android:name="com.example.lostpets.AddRecordFragment"
+        android:label="Record Fragment"
+        tools:layout="@layout/fragment_add_record">
+
+
+    </fragment>
 
     <fragment
         android:id="@+id/HomePageFragment"
