@@ -192,9 +192,9 @@
             android:inputType="text"
             android:text="Description"
             android:textAlignment="viewStart"
-            android:background="@android:color/transparent" <!-- Set background to null or transparent -->
-        android:maxLines="5" <!-- Set the maximum number of lines you want to allow -->
-        android:scrollbars="vertical" <!-- Enable vertical scrollbar if needed -->
+            android:background="@android:color/transparent"
+        android:maxLines="5"
+        android:scrollbars="vertical"
         />
     </androidx.cardview.widget.CardView>
 
