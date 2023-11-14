@@ -137,6 +137,11 @@ public class HomePageFragment extends Fragment {
                 nameTextView.setText(petItem.getName());
                 cityTextView.setText(petItem.getCity());
                 contactTextView.setText(petItem.getContact());
+                convertView.setOnClickListener(v -> {
+                    //Put the index of the item in the helper Class so i can use it in the MovieInfoFragment to retrieve the data.
+                    NavHostFragment.findNavController(HomePageFragment.this)
+                            .navigate(R.id.action_Home_to_Add);
+                });
             }
 
             return convertView;

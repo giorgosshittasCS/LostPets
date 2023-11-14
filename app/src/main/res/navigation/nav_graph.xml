@@ -44,6 +44,8 @@
         android:name="com.example.lostpets.HomePageFragment"
         android:label="HomePage Fragment"
         tools:layout="@layout/fragment_home_page">
-
+        <action
+            android:id="@+id/action_Home_to_Add"
+            app:destination="@id/RecordFragment" />
     </fragment>
 </navigation>
