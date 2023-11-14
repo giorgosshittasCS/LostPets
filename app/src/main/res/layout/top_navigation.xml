@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#ADC178"
+        app:titleTextColor="@android:color/white"
+        >
+
+        <!-- Add an ImageView for your image -->
+        <ImageView
+            android:id="@+id/toolbar_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_landscape"
+            android:layout_gravity="start"
+            android:layout_marginStart="8dp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Your other layout components go here -->
+
+</RelativeLayout>
