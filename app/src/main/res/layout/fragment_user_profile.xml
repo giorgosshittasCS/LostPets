@@ -11,13 +11,14 @@ android:fitsSystemWindows="true"
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <include
-        android:id="@+id/include"
-        layout="@layout/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="53dp"
-        tools:layout_editor_absoluteY="0dp" />
+            android:id="@+id/include"
+            layout="@layout/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="53dp"
+            tools:layout_editor_absoluteY="0dp" />
 
 
         <TextView
@@ -114,6 +115,17 @@ android:fitsSystemWindows="true"
                 android:text="Password" />
         </androidx.cardview.widget.CardView>
 
+
+        <Button
+            android:id="@+id/update_button_userprofile"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+
+            android:foregroundGravity="center"
+            android:text="Update Profile"
+            tools:layout_editor_absoluteX="130dp"
+            tools:layout_editor_absoluteY="515dp"
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
