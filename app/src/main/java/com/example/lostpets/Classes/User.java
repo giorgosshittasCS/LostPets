@@ -2,6 +2,8 @@ package com.example.lostpets.Classes;
 
 public class User {
 
+    public static String user;
+
     private String username;
     private String phone_number;
     private String password;
