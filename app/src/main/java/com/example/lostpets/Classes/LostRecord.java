@@ -41,18 +41,15 @@ import com.google.firebase.firestore.GeoPoint;
 //    }
 //}
 public class LostRecord {
+    private String petname;
+    private String owner;
     private String age;
-    private String award;
     private String breed;
     private String color;
     private String date;
-    private String description;
-    private String id;
-    private String name;
-    private String userId;
+    private String award;
     private String city;
-    private String owner;
-
+    private String description;
     private String contact;
     private GeoPoint location;
 
@@ -64,9 +61,7 @@ public class LostRecord {
         this.color = color;
         this.date = date;
         this.description = description;
-        this.id = id;
-        this.name = name;
-        this.userId = userId;
+        this.petname = name;
         this.location = location;
         this.city=city;
         this.owner=owner;
@@ -106,17 +101,11 @@ public class LostRecord {
         this.description = description;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public void setName(String name) {
-        this.name = name;
+        this.petname = name;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public void setLocation(GeoPoint location) {
         this.location = location;
@@ -149,23 +138,17 @@ public class LostRecord {
         return description;
     }
 
-    public String getId() {
-        return id;
-    }
     public String getCity() {
         return city;
     }
 
     public String getName() {
-        return name;
+        return petname;
     }
     public String getContact() {
         return contact;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
     public GeoPoint getLocation() {
         return location;
