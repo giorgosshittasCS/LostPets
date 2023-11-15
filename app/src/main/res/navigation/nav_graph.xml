@@ -30,6 +30,7 @@
             app:destination="@id/LoginFragment" />
 
     </fragment>
+
     <fragment
         android:id="@+id/RecordFragment"
         android:name="com.example.lostpets.AddRecordFragment"
@@ -50,11 +51,92 @@
         <action
             android:id="@+id/action_Home_to_Add"
             app:destination="@id/RecordFragment" />
+
+
     </fragment>
+
+    <fragment
+        android:id="@+id/SettingsFragment"
+        android:name="com.example.lostpets.SettingsFragment"
+        android:label="Settings Fragment"
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_Settings_to_UserProfileFragment"
+            app:destination="@id/UserProfileFragment" />
+
+        <!--notification action fragment-->
+
+        <action
+            android:id="@+id/action_Settings_to_ContactUs"
+            app:destination="@id/ContactUsFragment" />
+
+        <!--terms and policies action fragment-->
+
+        <action
+            android:id="@+id/action_Settings_to_Login"
+            app:destination="@id/LoginFragment" />
+
+        <action
+            android:id="@+id/action_Settings_to_Home"
+            app:destination="@id/HomePageFragment" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/ContactUsFragment"
+        android:name="com.example.lostpets.ContactUsFragment"
+        android:label="ContactUsFragment"
+        tools:layout="@layout/fragment_contact_us">
+
+        <action
+            android:id="@+id/action_ContactUs_to_Home"
+            app:destination="@id/HomePageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/UserProfileFragment"
+        android:name="com.example.lostpets.UserProfileFragment"
+        android:label="UserProfileFragment"
+        tools:layout="@layout/fragment_user_profile">
+
+        <action
+            android:id="@+id/action_UserProfile_to_Home"
+            app:destination="@id/HomePageFragment" />
+
+    </fragment>
+
     <fragment
         android:id="@+id/nav_add"
         android:name="com.example.lostpets.AddRecordFragment"
         android:label=""
         tools:layout="@layout/fragment_add_record">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.lostpets.HomePageFragment"
+        android:label=""
+        tools:layout="@layout/fragment_home_page">
+    </fragment>
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.lostpets.SettingsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_settings">
+    </fragment>
+    <fragment
+        android:id="@+id/nav_like"
+        android:name="com.example.lostpets.FavoriteFragment"
+        android:label=""
+        tools:layout="@layout/fragment_favorite">
+    </fragment>
+    <fragment
+        android:id="@+id/nav_user"
+        android:name="com.example.lostpets.UserProfileFragment"
+        android:label=""
+        tools:layout="@layout/fragment_user_profile">
     </fragment>
 </navigation>
