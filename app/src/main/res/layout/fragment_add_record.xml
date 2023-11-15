@@ -229,7 +229,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/descriptionText"
             android:layout_width="363dp"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
