@@ -29,6 +29,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCpYzrTuxcqMrnDjV3MXN5zsN6t4Z72CPE" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/dog" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/white" />
 
         <service
             android:name="PetsFirebaseMessagingService"

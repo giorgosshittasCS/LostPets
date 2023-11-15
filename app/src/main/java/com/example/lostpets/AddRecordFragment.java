@@ -30,6 +30,37 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
+//    private void sendFCMNotification() {
+//        Intent intent = new Intent(getContext(), MainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0 /* Request code */, intent,
+//                PendingIntent.FLAG_IMMUTABLE);
+//
+//        String channelId = "fcm_default_channel";
+//        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        NotificationCompat.Builder notificationBuilder =
+//                new NotificationCompat.Builder(getContext(), channelId)
+//                        .setSmallIcon(R.drawable.dog)
+//                        .setContentTitle("Another dog \uD83D\uDC36 is missing \uD83D\uDE14!!")
+//                        .setContentText("Can you help finding it? ")
+//                        .setAutoCancel(true)
+//                        .setLargeIcon( BitmapFactory.decodeResource(getResources(), R.drawable.dog))
+//                        .setSound(defaultSoundUri)
+//                        .setContentIntent(pendingIntent);
+//
+//        NotificationManager notificationManager =
+//                (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        // Since android Oreo notification channel is needed.
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            NotificationChannel channel = new NotificationChannel(channelId,
+//                    "Channel human readable title",
+//                    NotificationManager.IMPORTANCE_DEFAULT);
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//
+//        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+//    }
 public class AddRecordFragment extends Fragment {
 
 
