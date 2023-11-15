@@ -145,5 +145,20 @@ public class LoginFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+/*
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        // Show or unhide the UI element in the main activity
+        ((MainActivity) requireActivity()).showYourUIElement();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Hide the UI element in the main activity
+        ((MainActivity) requireActivity()).hideYourUIElement();
+    }*/
 }

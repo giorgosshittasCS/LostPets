@@ -60,11 +60,10 @@ public class HomePageFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static HomePageFragment newInstance(String param1, String param2) {
+    public static HomePageFragment newInstance() {
         HomePageFragment fragment = new HomePageFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,9 +78,12 @@ public class HomePageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         binding=FragmentHomePageBinding.inflate(inflater,container,false);
-        View view = inflater.inflate(R.layout.fragment_home_page, container, false);
+        //View view = inflater.inflate(R.layout.fragment_home_page, container, false);
+        View view = binding.getRoot();
+
         petsListView = view.findViewById(R.id.petsView);
         displayPetsList();
         return view;
@@ -90,7 +92,7 @@ public class HomePageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+         bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
