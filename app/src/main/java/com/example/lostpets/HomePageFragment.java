@@ -83,12 +83,12 @@ public class HomePageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder(db.getFirestoreSettings())
-                .setLocalCacheSettings(MemoryCacheSettings.newBuilder().build())
-                .setLocalCacheSettings(PersistentCacheSettings.newBuilder().build())
-                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-                .build();
-        db.setFirestoreSettings(settings);
+//        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder(db.getFirestoreSettings())
+//                .setLocalCacheSettings(MemoryCacheSettings.newBuilder().build())
+//                .setLocalCacheSettings(PersistentCacheSettings.newBuilder().build())
+//                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+//                .build();
+//        db.setFirestoreSettings(settings);
 //        db.collection("favourites")
 //                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
 //                    @Override
