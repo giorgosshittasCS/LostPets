@@ -3,7 +3,10 @@ package com.example.lostpets;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -86,11 +89,14 @@ public class HomePageFragment extends Fragment {
     public void onViewCreated( View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Now, the view is fully created, and you can access the BottomNavigationView
-        BottomNavigationView navigationView = view.findViewById(R.id.bottom_navigation);
-        Menu menu = navigationView.getMenu();
-        MenuItem likeIcon = menu.findItem(R.id.nav_home);
-        likeIcon.setIcon(R.drawable.white_home_icon);
+
+        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
+//        Menu menu = navigationView.getMenu();
+//        MenuItem likeIcon = menu.findItem(R.id.nav_home);
+//        likeIcon.setIcon(R.drawable.white_home_icon);
     }
     public void displayPetsList(){
         pets=new ArrayList<LostRecord>();
@@ -137,6 +143,11 @@ public class HomePageFragment extends Fragment {
                 nameTextView.setText(petItem.getName());
                 cityTextView.setText(petItem.getCity());
                 contactTextView.setText(petItem.getContact());
+                convertView.setOnClickListener(v -> {
+                    //Put the index of the item in the helper Class so i can use it in the MovieInfoFragment to retrieve the data.
+                    NavHostFragment.findNavController(HomePageFragment.this)
+                            .navigate(R.id.action_Home_to_Add);
+                });
             }
 
             return convertView;
