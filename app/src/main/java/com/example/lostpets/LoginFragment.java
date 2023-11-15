@@ -1,6 +1,18 @@
 package com.example.lostpets;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +22,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 
 import com.example.lostpets.Classes.User;
 import com.example.lostpets.databinding.FragmentLoginBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -24,12 +38,15 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 import com.squareup.picasso.Picasso;
 
 public class LoginFragment extends Fragment {
 
     private FragmentLoginBinding binding;
-
+    private FirebaseMessagingService firebaseMessagingService;
     private FirebaseFirestore db;
     private CollectionReference usersCollection;
 
@@ -48,6 +65,7 @@ public class LoginFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
         usersCollection = db.collection("users");
+
 
     }
 
@@ -83,7 +101,7 @@ public class LoginFragment extends Fragment {
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendFCMNotification();
+
                 username = username_edittext.getText().toString();
                 password = password_edittext.getText().toString();
 
@@ -137,9 +155,7 @@ public class LoginFragment extends Fragment {
             }
         });
     }
-    private void sendFCMNotification() {
 
-    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
