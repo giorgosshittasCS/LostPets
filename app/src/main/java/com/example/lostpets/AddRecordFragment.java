@@ -81,27 +81,29 @@ public class AddRecordFragment extends Fragment {
 
 
         //en iparxi to koumpi na dimiourgithi je na to arxikopoiiso***
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LostRecord lostRecord = new LostRecord(
-                        owner.getText().toString(),
-                        age.getText().toString(),
-                        award.getText().toString(),
-                        breed.getText().toString(),
-                        color.getText().toString(),
-                        dateofloss.getText().toString(),
-                        description.getText().toString(),
-                        "0",
-                        petname.getText().toString(),
-                        "0",
-                        null,
-                        city.getText().toString(),
-                        "999999"
 
-                );
-            }
-        });
+
+//        upload.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                LostRecord lostRecord = new LostRecord(
+//                        owner.getText().toString(),
+//                        age.getText().toString(),
+//                        award.getText().toString(),
+//                        breed.getText().toString(),
+//                        color.getText().toString(),
+//                        dateofloss.getText().toString(),
+//                        description.getText().toString(),
+//                        "0",
+//                        petname.getText().toString(),
+//                        "0",
+//                        null,
+//                        city.getText().toString(),
+//                        "999999"
+//
+//                );
+//            }
+//        });
 
 
 

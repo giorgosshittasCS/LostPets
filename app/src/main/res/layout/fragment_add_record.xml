@@ -26,7 +26,7 @@
             android:id="@+id/imageView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/logo" />
+            android:src="@drawable/add_image" />
     </FrameLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -264,17 +264,17 @@
 
     <FrameLayout
         android:id="@+id/locationFrame"
-        android:layout_width="388dp"
-        android:layout_height="551dp"
+        android:layout_width="397dp"
+        android:layout_height="552dp"
         android:layout_marginTop="52dp"
         android:layout_marginBottom="36dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="0.407"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textView4"
@@ -284,6 +284,16 @@
             android:text="+ Add Location"
             android:textSize="20sp" />
     </FrameLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
