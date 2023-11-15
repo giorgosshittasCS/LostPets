@@ -110,6 +110,7 @@ public class LoginFragment extends Fragment {
                                 user = documentSnapshot.toObject(User.class);
 
                                 if (user.getPassword().equals( password)) {
+                                    User.user = user.getUsername();
                                     NavHostFragment.findNavController(LoginFragment.this)
                                             .navigate(R.id.action_LoginFragment_to_HomePageFragment);
                                 } else {

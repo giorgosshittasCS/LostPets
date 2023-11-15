@@ -52,9 +52,10 @@ public class LostRecord {
     private String description;
     private String contact;
     private GeoPoint location;
+    private String pic;
 
-    public LostRecord(String owner,String age, String award, String breed, String color, String date, String description, String id,
-                      String name, String userId, GeoPoint location,String city,String contact) {
+    public LostRecord(String owner,String age, String award, String breed, String color, String date, String description,
+                      String name, GeoPoint location,String city,String contact,String pic) {
         this.age = age;
         this.award = award;
         this.breed = breed;
@@ -66,6 +67,7 @@ public class LostRecord {
         this.city=city;
         this.owner=owner;
         this.contact=contact;
+        this.pic = pic;
     }
     public LostRecord(){}
     public void setAge(String age) {
@@ -154,4 +156,11 @@ public class LostRecord {
         return location;
     }
 
+    public String getPic(){
+        return this.pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
 }

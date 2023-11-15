@@ -50,7 +50,7 @@ public class UserProfileFragment extends Fragment {
         usersCollection = db.collection("users");
 
         if (getArguments() != null) {
-            username = getArguments().getString("0",null);
+            username = User.user;
         }
 
     }
