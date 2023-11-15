@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -17,10 +18,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.lostpets.Classes.LostRecord;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,7 +43,9 @@ public class AddRecordFragment extends Fragment {
     EditText dateofloss;
     EditText award;
     EditText city;
+    EditText phone;
     EditText description;
+    private String base64String;
 
     Button upload;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -78,32 +83,58 @@ public class AddRecordFragment extends Fragment {
         award = view.findViewById(R.id.awardText);
         city = view.findViewById(R.id.cityText);
         description = view.findViewById(R.id.descriptionText);
+        phone = view.findViewById(R.id.phoneText);
+        upload = view.findViewById(R.id.upload_button);
 
 
-        //en iparxi to koumpi na dimiourgithi je na to arxikopoiiso***
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                if(
+                   owner.getText().toString().equals("") ||
+                   age.getText().toString().equals("") ||
+                   award.getText().toString().equals("") ||
+                   breed.getText().toString().equals("") ||
+                   color.getText().toString().equals("") ||
+                   dateofloss.getText().toString().equals("") ||
+                   description.getText().toString().equals("") ||
+                   petname.getText().toString().equals("") ||
+//                   new GeoPoint(0,0),
+                   city.getText().toString().equals("") ||
+                   phone.getText().toString().equals("") ||
+                   base64String ==null || base64String.equals("")
+                ){
+                    Toast toast = Toast.makeText(getContext().getApplicationContext(), "Info missing", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else{
 
-//        upload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                LostRecord lostRecord = new LostRecord(
-//                        owner.getText().toString(),
-//                        age.getText().toString(),
-//                        award.getText().toString(),
-//                        breed.getText().toString(),
-//                        color.getText().toString(),
-//                        dateofloss.getText().toString(),
-//                        description.getText().toString(),
-//                        "0",
-//                        petname.getText().toString(),
-//                        "0",
-//                        null,
-//                        city.getText().toString(),
-//                        "999999"
-//
-//                );
-//            }
-//        });
+                    LostRecord lostRecord = new LostRecord(
+                            owner.getText().toString(),
+                            age.getText().toString(),
+                            award.getText().toString(),
+                            breed.getText().toString(),
+                            color.getText().toString(),
+                            dateofloss.getText().toString(),
+                            description.getText().toString(),
+                            petname.getText().toString(),
+                            new GeoPoint(0,0),
+                            city.getText().toString(),
+                            phone.getText().toString(),
+                            base64String
+                    );
+
+                    recordsCollection.add(lostRecord)
+                            .addOnSuccessListener(documentReference -> {
+                                // Show a success message
+                                Toast.makeText(requireContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
+                                NavHostFragment.findNavController(AddRecordFragment.this)
+                                        .navigate(R.id.action_add_to_home);
+                            });
+                }
+
+            }
+        });
 
 
 
@@ -153,7 +184,7 @@ public class AddRecordFragment extends Fragment {
                 byte[] imageBytes = readBytes(inputStream);
 
                 // Convert the byte array to a Base64 string
-                String base64String = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                base64String = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
                 byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
 
