@@ -83,7 +83,7 @@ public class LoginFragment extends Fragment {
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                sendFCMNotification();
                 username = username_edittext.getText().toString();
                 password = password_edittext.getText().toString();
 
@@ -136,7 +136,9 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+    private void sendFCMNotification() {
 
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
