@@ -84,38 +84,38 @@ public class HomePageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
-//        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder(db.getFirestoreSettings())
-//                .setLocalCacheSettings(PersistentCacheSettings.newBuilder().build())
-//                .build();
-//        db.collection("LostRecords")
-//                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot querySnapshot,
-//                                        @Nullable FirebaseFirestoreException e) {
-//                        if (e != null) {
-//                            Log.w(TAG, "Listen error", e);
-//                            return;
-//                        }
-//
-//                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
-//                            switch (change.getType()) {
-//                                case ADDED:
-//                                    Log.d(TAG, "New favorite:" + change.getDocument().getData());
-//                                    break;
-//                                case MODIFIED:
-//                                    Log.d(TAG, "Modified favorite:" + change.getDocument().getData());
-//                                    break;
-//                                case REMOVED:
-//                                    Log.d(TAG, "Removed favorite:" + change.getDocument().getData());
-//                                    break;
-//                            }
-//
-//                            String source = querySnapshot.getMetadata().isFromCache() ?
-//                                    "local cache" : "server";
-//                            Log.d(TAG, "Data fetched from " + source);
-//                        }
-//                    }
-//                });
+
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder(db.getFirestoreSettings())
+                .setLocalCacheSettings(PersistentCacheSettings.newBuilder().build())
+                .build();
+        db.collection("LostRecords")
+                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot querySnapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen error", e);
+                            return;
+                        }
+                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
+                            switch (change.getType()) {
+                                case ADDED:
+                                    Log.d(TAG, "New favorite:" + change.getDocument().getData());
+                                    break;
+                                case MODIFIED:
+                                    Log.d(TAG, "Modified favorite:" + change.getDocument().getData());
+                                    break;
+                                case REMOVED:
+                                    Log.d(TAG, "Removed favorite:" + change.getDocument().getData());
+                                    break;
+                            }
+
+                            String source = querySnapshot.getMetadata().isFromCache() ?
+                                    "local cache" : "server";
+                            Log.d(TAG, "Data fetched from " + source);
+                        }
+                    }
+                });
 
 
 
