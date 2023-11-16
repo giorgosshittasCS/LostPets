@@ -38,9 +38,48 @@
         tools:layout="@layout/fragment_add_record">
 
         <action
-            android:id="@+id/action_add_to_home"
+            android:id="@+id/action_This_to_Add"
+            app:destination="@id/RecordFragment" />
+        <action
+            android:id="@+id/action_This_to_Display"
+            app:destination="@id/DisplayPetFragment" />
+        <action
+            android:id="@+id/action_This_to_Settings"
+            app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_This_to_Favourites"
+            app:destination="@id/FavFragment" />
+        <action
+            android:id="@+id/action_This_to_Home"
             app:destination="@id/HomePageFragment" />
+        <action
+            android:id="@+id/action_This_to_User"
+            app:destination="@id/UserProfileFragment" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/FavFragment"
+        android:name="com.example.lostpets.FavoriteFragment"
+        android:label=""
+        tools:layout="@layout/fragment_favorite">
+    <action
+        android:id="@+id/action_This_to_Add"
+        app:destination="@id/RecordFragment" />
+    <action
+        android:id="@+id/action_This_to_Display"
+        app:destination="@id/DisplayPetFragment" />
+    <action
+        android:id="@+id/action_This_to_Settings"
+        app:destination="@id/SettingsFragment" />
+    <action
+        android:id="@+id/action_This_to_Favourites"
+        app:destination="@id/FavFragment" />
+    <action
+        android:id="@+id/action_This_to_Home"
+        app:destination="@id/HomePageFragment" />
+        <action
+            android:id="@+id/action_This_to_User"
+            app:destination="@id/UserProfileFragment" />
     </fragment>
 
     <fragment
@@ -49,11 +88,23 @@
         android:label="HomePage Fragment"
         tools:layout="@layout/fragment_home_page">
         <action
-            android:id="@+id/action_Home_to_Add"
+            android:id="@+id/action_This_to_Add"
             app:destination="@id/RecordFragment" />
         <action
-            android:id="@+id/action_Home_to_Display"
+            android:id="@+id/action_This_to_Display"
             app:destination="@id/DisplayPetFragment" />
+        <action
+            android:id="@+id/action_This_to_Settings"
+            app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_This_to_Favourites"
+            app:destination="@id/FavFragment" />
+        <action
+            android:id="@+id/action_This_to_Home"
+            app:destination="@id/HomePageFragment" />
+        <action
+            android:id="@+id/action_This_to_User"
+            app:destination="@id/UserProfileFragment" />
 
 
     </fragment>
@@ -65,24 +116,23 @@
         tools:layout="@layout/fragment_settings">
 
         <action
-            android:id="@+id/action_Settings_to_UserProfileFragment"
-            app:destination="@id/UserProfileFragment" />
-
-        <!--notification action fragment-->
-
+            android:id="@+id/action_This_to_Add"
+            app:destination="@id/RecordFragment" />
         <action
-            android:id="@+id/action_Settings_to_ContactUs"
-            app:destination="@id/ContactUsFragment" />
-
-        <!--terms and policies action fragment-->
-
+            android:id="@+id/action_This_to_Display"
+            app:destination="@id/DisplayPetFragment" />
         <action
-            android:id="@+id/action_Settings_to_Login"
-            app:destination="@id/LoginFragment" />
-
+            android:id="@+id/action_This_to_Settings"
+            app:destination="@id/SettingsFragment" />
         <action
-            android:id="@+id/action_Settings_to_Home"
+            android:id="@+id/action_This_to_Favourites"
+            app:destination="@id/FavFragment" />
+        <action
+            android:id="@+id/action_This_to_Home"
             app:destination="@id/HomePageFragment" />
+        <action
+            android:id="@+id/action_This_to_User"
+            app:destination="@id/UserProfileFragment" />
 
     </fragment>
 
@@ -94,8 +144,23 @@
         tools:layout="@layout/fragment_contact_us">
 
         <action
-            android:id="@+id/action_ContactUs_to_Home"
+            android:id="@+id/action_This_to_Add"
+            app:destination="@id/RecordFragment" />
+        <action
+            android:id="@+id/action_This_to_Display"
+            app:destination="@id/DisplayPetFragment" />
+        <action
+            android:id="@+id/action_This_to_Settings"
+            app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_This_to_Favourites"
+            app:destination="@id/FavFragment" />
+        <action
+            android:id="@+id/action_This_to_Home"
             app:destination="@id/HomePageFragment" />
+        <action
+            android:id="@+id/action_This_to_User"
+            app:destination="@id/UserProfileFragment" />
     </fragment>
 
     <fragment
@@ -105,8 +170,23 @@
         tools:layout="@layout/fragment_user_profile">
 
         <action
-            android:id="@+id/action_UserProfile_to_Home"
+            android:id="@+id/action_This_to_Add"
+            app:destination="@id/RecordFragment" />
+        <action
+            android:id="@+id/action_This_to_Display"
+            app:destination="@id/DisplayPetFragment" />
+        <action
+            android:id="@+id/action_This_to_Settings"
+            app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_This_to_Favourites"
+            app:destination="@id/FavFragment" />
+        <action
+            android:id="@+id/action_This_to_Home"
             app:destination="@id/HomePageFragment" />
+        <action
+            android:id="@+id/action_This_to_User"
+            app:destination="@id/UserProfileFragment" />
 
     </fragment>
     <fragment
@@ -115,39 +195,61 @@
         android:label=""
         tools:layout="@layout/fragment_display__pet_">
 
+        <action
+            android:id="@+id/action_This_to_Add"
+            app:destination="@id/RecordFragment" />
+        <action
+            android:id="@+id/action_This_to_Display"
+            app:destination="@id/DisplayPetFragment" />
+        <action
+            android:id="@+id/action_This_to_Settings"
+            app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_This_to_Favourites"
+            app:destination="@id/FavFragment" />
+        <action
+            android:id="@+id/action_This_to_Home"
+            app:destination="@id/HomePageFragment" />
+        <action
+            android:id="@+id/action_This_to_User"
+            app:destination="@id/UserProfileFragment" />
 
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_add"
-        android:name="com.example.lostpets.AddRecordFragment"
-        android:label=""
-        tools:layout="@layout/fragment_add_record">
+<!--    <fragment-->
+<!--        android:id="@+id/nav_add"-->
+<!--        android:name="com.example.lostpets.AddRecordFragment"-->
+<!--        android:label=""-->
+<!--        tools:layout="@layout/fragment_add_record">-->
 
-    </fragment>
+<!--        <action-->
+<!--            android:id="@+id/action_add_to_home"-->
+<!--            app:destination="@id/HomePageFragment"/>-->
 
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.lostpets.HomePageFragment"
-        android:label=""
-        tools:layout="@layout/fragment_home_page">
-    </fragment>
-    <fragment
-        android:id="@+id/nav_settings"
-        android:name="com.example.lostpets.SettingsFragment"
-        android:label=""
-        tools:layout="@layout/fragment_settings">
-    </fragment>
-    <fragment
-        android:id="@+id/nav_like"
-        android:name="com.example.lostpets.FavoriteFragment"
-        android:label=""
-        tools:layout="@layout/fragment_favorite">
-    </fragment>
-    <fragment
-        android:id="@+id/nav_user"
-        android:name="com.example.lostpets.UserProfileFragment"
-        android:label=""
-        tools:layout="@layout/fragment_user_profile">
-    </fragment>
+<!--    </fragment>-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/nav_home"-->
+<!--        android:name="com.example.lostpets.HomePageFragment"-->
+<!--        android:label=""-->
+<!--        tools:layout="@layout/fragment_home_page">-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/nav_settings"-->
+<!--        android:name="com.example.lostpets.SettingsFragment"-->
+<!--        android:label=""-->
+<!--        tools:layout="@layout/fragment_settings">-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/nav_like"-->
+<!--        android:name="com.example.lostpets.FavoriteFragment"-->
+<!--        android:label=""-->
+<!--        tools:layout="@layout/fragment_favorite">-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/nav_user"-->
+<!--        android:name="com.example.lostpets.UserProfileFragment"-->
+<!--        android:label=""-->
+<!--        tools:layout="@layout/fragment_user_profile">-->
+<!--    </fragment>-->
 </navigation>

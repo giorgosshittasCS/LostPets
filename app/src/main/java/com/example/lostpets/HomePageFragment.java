@@ -2,9 +2,12 @@ package com.example.lostpets;
 
 import static android.content.ContentValues.TAG;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -65,7 +68,6 @@ public class HomePageFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private BottomNavigationView bottomNavigationView;
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -138,14 +140,47 @@ public class HomePageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-//        Menu menu = navigationView.getMenu();
+        BottomNavigationView bottomNavigationView;
+        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if(item.getItemId()==R.id.nav_add) {
+                    NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_Add);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_home) {
+                    NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_Home);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_settings) {
+                    NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_Settings);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_user) {
+                    NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_User);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_like) {
+                    NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_Favourites);
+                    return true;
+                }
+
+
+                return false;
+            }
+        });
+
+    }
+    //        Menu menu = navigationView.getMenu();
 //        MenuItem likeIcon = menu.findItem(R.id.nav_home);
 //        likeIcon.setIcon(R.drawable.white_home_icon);
-    }
     public void displayPetsList(){
         pets=new ArrayList<LostRecord>();
         db.collection("LostRecords") // Replace "movies" with your collection name
@@ -181,6 +216,21 @@ public class HomePageFragment extends Fragment {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pet, parent, false);
 
             }
+            ImageView heartIcon = convertView.findViewById(R.id.like);
+
+            // Set a click listener for the heart icon
+            heartIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LostRecord clickedPet = getItem(position);
+
+                    if (clickedPet != null) {
+                        Drawable redHeartDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.like_icon_red);
+                        heartIcon.setImageDrawable(redHeartDrawable);
+                        // Add favourite in database
+                    }
+                }
+            });
 
             LostRecord petItem = getItem(position);
             TextView ownerTextView=convertView.findViewById(R.id.ownerText);
@@ -202,7 +252,7 @@ public class HomePageFragment extends Fragment {
                     displayPetFragment.setArguments(bundle);
                     //Put the index of the item in the helper Class so i can use it in the MovieInfoFragment to retrieve the data.
                     NavHostFragment.findNavController(HomePageFragment.this)
-                            .navigate(R.id.action_Home_to_Display,bundle);
+                            .navigate(R.id.action_This_to_Display,bundle);
                 });
             }
 

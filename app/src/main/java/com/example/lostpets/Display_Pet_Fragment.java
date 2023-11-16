@@ -4,9 +4,14 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +26,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -63,7 +69,12 @@ public class Display_Pet_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Bundle args = getArguments();
+        if (args != null) {
+            String petId = args.getString("id", ""); // Provide a default value if needed
+            Log.d("PetID",petId);
+            // Now you can use the petId in your fragment logic
+        }
         if (getArguments() != null) {
             id = getArguments().getString("id",null);
         }
@@ -125,5 +136,47 @@ public class Display_Pet_Fragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+    }
+    public void onViewCreated( View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+
+        BottomNavigationView bottomNavigationView;
+        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if(item.getItemId()==R.id.nav_add) {
+                    NavHostFragment.findNavController(Display_Pet_Fragment.this).navigate(R.id.action_This_to_Add);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_home) {
+                    NavHostFragment.findNavController(Display_Pet_Fragment.this).navigate(R.id.action_This_to_Home);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_settings) {
+                    NavHostFragment.findNavController(Display_Pet_Fragment.this).navigate(R.id.action_This_to_Settings);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_user) {
+                    NavHostFragment.findNavController(Display_Pet_Fragment.this).navigate(R.id.action_This_to_User);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_like) {
+                    NavHostFragment.findNavController(Display_Pet_Fragment.this).navigate(R.id.action_This_to_Favourites);
+                    return true;
+                }
+
+
+                return false;
+            }
+        });
+
     }
 }

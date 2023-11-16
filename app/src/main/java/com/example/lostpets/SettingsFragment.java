@@ -2,12 +2,15 @@ package com.example.lostpets;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -66,18 +69,48 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
-
-
     public void onViewCreated( View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
 
-        BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-//        Menu menu = navigationView.getMenu();
-//        MenuItem likeIcon = menu.findItem(R.id.nav_home);
-//        likeIcon.setIcon(R.drawable.white_home_icon);
+        BottomNavigationView bottomNavigationView;
+        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if(item.getItemId()==R.id.nav_add) {
+                    NavHostFragment.findNavController(SettingsFragment.this).navigate(R.id.action_This_to_Add);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_home) {
+                    NavHostFragment.findNavController(SettingsFragment.this).navigate(R.id.action_This_to_Home);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_settings) {
+                    NavHostFragment.findNavController(SettingsFragment.this).navigate(R.id.action_This_to_Settings);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_user) {
+                    NavHostFragment.findNavController(SettingsFragment.this).navigate(R.id.action_This_to_User);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_like) {
+                    NavHostFragment.findNavController(SettingsFragment.this).navigate(R.id.action_This_to_Favourites);
+                    return true;
+                }
+
+
+                return false;
+            }
+        });
+
     }
+
+    
 }

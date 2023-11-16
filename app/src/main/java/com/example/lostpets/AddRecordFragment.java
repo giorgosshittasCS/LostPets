@@ -18,10 +18,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,6 +47,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -77,6 +82,7 @@ public class AddRecordFragment extends Fragment {
 
     private FirebaseFirestore db;
     private CollectionReference recordsCollection;
+    private BottomNavigationView bottomNavigationView;
 
     public AddRecordFragment() {
         // Required empty public constructor
@@ -152,7 +158,7 @@ public class AddRecordFragment extends Fragment {
                                 // Show a success message
                                 Toast.makeText(requireContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
                                 NavHostFragment.findNavController(AddRecordFragment.this)
-                                        .navigate(R.id.action_add_to_home);
+                                        .navigate(R.id.action_This_to_Home);
                             });
                 }
 
@@ -195,9 +201,49 @@ public class AddRecordFragment extends Fragment {
 
 
         return view;
+
+
+
+
     }
     public void onViewCreated( View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+
+        BottomNavigationView bottomNavigationView;
+        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if(item.getItemId()==R.id.nav_add) {
+                    NavHostFragment.findNavController(AddRecordFragment.this).navigate(R.id.action_This_to_Add);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_home) {
+                    NavHostFragment.findNavController(AddRecordFragment.this).navigate(R.id.action_This_to_Home);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_settings) {
+                    NavHostFragment.findNavController(AddRecordFragment.this).navigate(R.id.action_This_to_Settings);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_user) {
+                    NavHostFragment.findNavController(AddRecordFragment.this).navigate(R.id.action_This_to_User);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_like) {
+                    NavHostFragment.findNavController(AddRecordFragment.this).navigate(R.id.action_This_to_Favourites);
+                    return true;
+                }
+
+
+                return false;
+            }
+        });
         FrameLayout imageFrameLayout = view.findViewById(R.id.imageFrameLayout);
         imageFrameLayout.setOnClickListener(new View.OnClickListener() {
             @Override

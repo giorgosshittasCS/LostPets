@@ -4,8 +4,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -16,6 +21,7 @@ import com.example.lostpets.Classes.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -103,6 +109,48 @@ public class UserProfileFragment extends Fragment {
 
 
         return view;
+    }
+    public void onViewCreated( View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+
+        BottomNavigationView bottomNavigationView;
+        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                if(item.getItemId()==R.id.nav_add) {
+                    NavHostFragment.findNavController(UserProfileFragment.this).navigate(R.id.action_This_to_Add);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_home) {
+                    NavHostFragment.findNavController(UserProfileFragment.this).navigate(R.id.action_This_to_Home);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_settings) {
+                    NavHostFragment.findNavController(UserProfileFragment.this).navigate(R.id.action_This_to_Settings);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_user) {
+                    NavHostFragment.findNavController(UserProfileFragment.this).navigate(R.id.action_This_to_User);
+                    return true;
+                }
+                else if(item.getItemId()==R.id.nav_like) {
+                    NavHostFragment.findNavController(UserProfileFragment.this).navigate(R.id.action_This_to_Favourites);
+                    return true;
+                }
+
+
+                return false;
+            }
+        });
+
     }
 
 }
