@@ -1,12 +1,22 @@
 package com.example.lostpets;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
@@ -18,9 +28,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lostpets.Classes.LostRecord;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
@@ -30,41 +52,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-//    private void sendFCMNotification() {
-//        Intent intent = new Intent(getContext(), MainActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0 /* Request code */, intent,
-//                PendingIntent.FLAG_IMMUTABLE);
-//
-//        String channelId = "fcm_default_channel";
-//        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//        NotificationCompat.Builder notificationBuilder =
-//                new NotificationCompat.Builder(getContext(), channelId)
-//                        .setSmallIcon(R.drawable.dog)
-//                        .setContentTitle("Another dog \uD83D\uDC36 is missing \uD83D\uDE14!!")
-//                        .setContentText("Can you help finding it? ")
-//                        .setAutoCancel(true)
-//                        .setLargeIcon( BitmapFactory.decodeResource(getResources(), R.drawable.dog))
-//                        .setSound(defaultSoundUri)
-//                        .setContentIntent(pendingIntent);
-//
-//        NotificationManager notificationManager =
-//                (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        // Since android Oreo notification channel is needed.
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            NotificationChannel channel = new NotificationChannel(channelId,
-//                    "Channel human readable title",
-//                    NotificationManager.IMPORTANCE_DEFAULT);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//
-//        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-//    }
+
 public class AddRecordFragment extends Fragment {
 
-
-    private String username;
 
     EditText petname;
     EditText owner;
@@ -76,9 +66,13 @@ public class AddRecordFragment extends Fragment {
     EditText city;
     EditText phone;
     EditText description;
+
+    GeoPoint geoPoint;
     private String base64String;
 
     Button upload;
+
+    GoogleMap map;
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private FirebaseFirestore db;
@@ -94,9 +88,7 @@ public class AddRecordFragment extends Fragment {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         recordsCollection = db.collection("LostRecords");
-        if (getArguments() != null) {
-            username = getArguments().getString("0",null);
-        }
+
     }
 
     @Override
@@ -131,7 +123,7 @@ public class AddRecordFragment extends Fragment {
                    dateofloss.getText().toString().equals("") ||
                    description.getText().toString().equals("") ||
                    petname.getText().toString().equals("") ||
-//                   new GeoPoint(0,0),
+                   geoPoint == null ||
                    city.getText().toString().equals("") ||
                    phone.getText().toString().equals("") ||
                    base64String ==null || base64String.equals("")
@@ -149,7 +141,7 @@ public class AddRecordFragment extends Fragment {
                             dateofloss.getText().toString(),
                             description.getText().toString(),
                             petname.getText().toString(),
-                            new GeoPoint(0,0),
+                            geoPoint,
                             city.getText().toString(),
                             phone.getText().toString(),
                             base64String
@@ -164,12 +156,44 @@ public class AddRecordFragment extends Fragment {
                             });
                 }
 
+                sendFCMNotification();
+
+            }
+        });
+
+        //the map:
+        SupportMapFragment supportMapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(@NonNull GoogleMap googleMap) {
+
+                map = googleMap;
+
+                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(@NonNull LatLng latLng) {
+                        geoPoint = new GeoPoint(latLng.latitude,latLng.longitude);
+                        MarkerOptions markerOptions=new MarkerOptions();
+                        markerOptions.position(latLng);
+                        markerOptions.title(latLng.latitude+" KG "+latLng.longitude);
+                        googleMap.clear();
+//                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,8));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                        googleMap.addMarker(markerOptions);
+
+
+                        Circle circle = map.addCircle(new CircleOptions()
+                                .center(new LatLng(latLng.latitude, latLng.longitude))
+                                .radius(1000)
+                                .strokeColor(Color.RED)
+                                .fillColor(Color.argb(48, 0, 0, 255))); // Set blue color with 20% transparency
+                    }
+                });
+
             }
         });
 
 
-
-        // Inflate the layout for this fragment
         return view;
     }
     public void onViewCreated( View view, Bundle savedInstanceState) {
@@ -228,6 +252,38 @@ public class AddRecordFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+    }
+
+        private void sendFCMNotification() {
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0 /* Request code */, intent,
+                PendingIntent.FLAG_IMMUTABLE);
+
+        String channelId = "fcm_default_channel";
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(getContext(), channelId)
+                        .setSmallIcon(R.drawable.dog)
+                        .setContentTitle("Another dog \uD83D\uDC36 is missing \uD83D\uDE14!!")
+                        .setContentText("Can you help finding it? ")
+                        .setAutoCancel(true)
+                        .setLargeIcon( BitmapFactory.decodeResource(getResources(), R.drawable.dog))
+                        .setSound(defaultSoundUri)
+                        .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId,
+                    "Channel human readable title",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 
 }
