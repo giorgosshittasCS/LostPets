@@ -72,7 +72,7 @@ android:fitsSystemWindows="true"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="Name" />
+                android:hint="Name" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -92,7 +92,7 @@ android:fitsSystemWindows="true"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="PhoneNumber" />
+                android:hint="PhoneNumber" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -112,7 +112,7 @@ android:fitsSystemWindows="true"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:text="Password" />
+                android:hint="Password" />
         </androidx.cardview.widget.CardView>
 
 
