@@ -129,6 +129,12 @@ public class LoginFragment extends Fragment {
 
                                 if (user.getPassword().equals( password)) {
                                     User.user = user.getUsername();
+                                    HomePageFragment homepage= new HomePageFragment();
+                                    Bundle bundle = new Bundle();
+
+                                    bundle.putString("userid", user.getUsername());
+
+                                    homepage.setArguments(bundle);
                                     NavHostFragment.findNavController(LoginFragment.this)
                                             .navigate(R.id.action_LoginFragment_to_HomePageFragment);
                                 } else {

@@ -85,11 +85,9 @@ public class HomePageFragment extends Fragment {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
 //        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder(db.getFirestoreSettings())
-//                .setLocalCacheSettings(MemoryCacheSettings.newBuilder().build())
 //                .setLocalCacheSettings(PersistentCacheSettings.newBuilder().build())
-//                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
 //                .build();
-//        db.collection("favourites")
+//        db.collection("LostRecords")
 //                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
 //                    @Override
 //                    public void onEvent(@Nullable QuerySnapshot querySnapshot,
@@ -227,6 +225,8 @@ public class HomePageFragment extends Fragment {
                     if (clickedPet != null) {
                         Drawable redHeartDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.like_icon_red);
                         heartIcon.setImageDrawable(redHeartDrawable);
+                        Log.d("DogID",clickedPet.getId());
+
                         // Add favourite in database
                     }
                 }
