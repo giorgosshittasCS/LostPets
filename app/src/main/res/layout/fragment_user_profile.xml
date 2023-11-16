@@ -123,9 +123,12 @@ android:fitsSystemWindows="true"
 
             android:foregroundGravity="center"
             android:text="Update Profile"
-            tools:layout_editor_absoluteX="130dp"
-            tools:layout_editor_absoluteY="515dp"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintBottom_toBottomOf="@+id/include"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.759" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
