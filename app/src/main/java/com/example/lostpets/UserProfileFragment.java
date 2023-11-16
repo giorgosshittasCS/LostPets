@@ -9,13 +9,16 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lostpets.Classes.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,11 +26,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class UserProfileFragment extends Fragment {
@@ -38,7 +45,7 @@ public class UserProfileFragment extends Fragment {
     private EditText username_edit_text;
     private EditText phone_edit_text;
     private EditText password_edit_text;
-
+    private DocumentReference docRef;
     private FirebaseFirestore db;
     private CollectionReference usersCollection;
 
@@ -55,9 +62,9 @@ public class UserProfileFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         usersCollection = db.collection("users");
 
-        if (getArguments() != null) {
-            username = User.user;
-        }
+
+        username = User.user;
+
 
     }
 
@@ -83,16 +90,16 @@ public class UserProfileFragment extends Fragment {
                     DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
 
                     // Get the data from the document snapshot
-                    user = documentSnapshot.toObject(User.class);
+                    User user_sample = documentSnapshot.toObject(User.class);
 
                     username_edit_text = view.findViewById(R.id.username_editText_userprofile);
                     phone_edit_text = view.findViewById(R.id.phonenumber_editText_userprofile);
                     password_edit_text = view.findViewById(R.id.password_editText_userprofile);
 
-                    username_edit_text.setText(user.getUsername());
-                    phone_edit_text.setText(user.getPhone_number());
-                    password_edit_text.setText(user.getPassword());
-
+                    username_edit_text.setText(user_sample.getUsername());
+                    phone_edit_text.setText(user_sample.getPhone_number());
+                    password_edit_text.setText(user_sample.getPassword());
+                    docRef = db.collection("users").document(documentSnapshot.getId());
                 } else {
                     // No documents were found
                 }
@@ -150,7 +157,19 @@ public class UserProfileFragment extends Fragment {
                 return false;
             }
         });
+        Button updateButton=view.findViewById(R.id.updateButton);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("username", username_edit_text.getText().toString());
+                updates.put("password", password_edit_text.getText().toString());
+                updates.put("phone_number", phone_edit_text.getText().toString());
+                docRef.update(updates);
+                Toast.makeText(getContext().getApplicationContext(), "Account Updated Successfully", Toast.LENGTH_SHORT).show();
 
+            }
+        });
     }
 
 }
