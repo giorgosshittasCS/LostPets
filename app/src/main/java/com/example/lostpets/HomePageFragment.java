@@ -195,7 +195,7 @@ public class HomePageFragment extends Fragment {
                 convertView.setOnClickListener(v -> {
                     //Put the index of the item in the helper Class so i can use it in the MovieInfoFragment to retrieve the data.
                     NavHostFragment.findNavController(HomePageFragment.this)
-                            .navigate(R.id.action_Home_to_Add);
+                            .navigate(R.id.action_Home_to_Display);
                 });
             }
 

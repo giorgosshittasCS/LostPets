@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_Home_to_Add"
             app:destination="@id/RecordFragment" />
+        <action
+            android:id="@+id/action_Home_to_Display"
+            app:destination="@id/DisplayPetFragment" />
 
 
     </fragment>
@@ -104,6 +107,14 @@
         <action
             android:id="@+id/action_UserProfile_to_Home"
             app:destination="@id/HomePageFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/DisplayPetFragment"
+        android:name="com.example.lostpets.Display_Pet_Fragment"
+        android:label=""
+        tools:layout="@layout/fragment_display__pet_">
+
 
     </fragment>
 
