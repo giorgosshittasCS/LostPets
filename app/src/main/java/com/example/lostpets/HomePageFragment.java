@@ -88,7 +88,6 @@ public class HomePageFragment extends Fragment {
 //                .setLocalCacheSettings(PersistentCacheSettings.newBuilder().build())
 //                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
 //                .build();
-//        db.setFirestoreSettings(settings);
 //        db.collection("favourites")
 //                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
 //                    @Override
