@@ -87,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
+                android:hint="Description"
                 android:textAlignment="viewStart"></EditText>
         </androidx.cardview.widget.CardView>
 
