@@ -13,14 +13,16 @@
         android:layout_width="413dp"
         android:layout_height="588dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-        tools:layout_editor_absoluteX="-4dp">
+        app:layout_constraintStart_toStartOf="parent">
 
         <ListView
             android:id="@+id/petsView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="0dp"
             android:divider="#F0EAD2"
             android:dividerHeight="15dp">
 
