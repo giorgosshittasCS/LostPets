@@ -58,7 +58,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:text="PetName" />
+                android:hint="PetName" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -80,7 +80,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:text="Owner" />
+                android:hint="Owner" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -102,7 +102,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:text="Age" />
+                android:hint="Age" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -124,7 +124,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:text="Breed" />
+                android:hint="Breed" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -146,7 +146,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:text="Color" />
+                android:hint="Color" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -168,7 +168,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:text="Date of loss" />
+                android:hint="Date of loss" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -190,7 +190,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:text="Award" />
+                android:hint="Award" />
 
         </androidx.cardview.widget.CardView>
 
@@ -213,7 +213,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:text="City" />
+                android:hint="City" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -235,7 +235,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:paddingLeft="5dp"
-                android:text="Phone Number" />
+                android:hint="Phone Number" />
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -259,7 +259,7 @@
             android:gravity="top|start"
             android:inputType="text"
             android:padding="8dp"
-            android:text="Description" />
+            android:hint="Description" />
     </androidx.cardview.widget.CardView>
 
     <FrameLayout
@@ -276,13 +276,22 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView"
         app:layout_constraintVertical_bias="0.0">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:text="+ Add Location"
-            android:textSize="20sp" />
+<!--        <TextView-->
+<!--            android:id="@+id/textView4"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center_horizontal|center_vertical"-->
+<!--            android:text="+ Add Location"-->
+<!--            android:textSize="20sp" />-->
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true" />
+
     </FrameLayout>
 
     <Button
