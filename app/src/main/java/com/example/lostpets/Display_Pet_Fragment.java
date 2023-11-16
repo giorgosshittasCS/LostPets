@@ -2,63 +2,128 @@ package com.example.lostpets;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Display_Pet_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.lostpets.Classes.LostRecord;
+import com.example.lostpets.Classes.User;
+import com.example.lostpets.databinding.FragmentHomePageBinding;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Text;
+
+
 public class Display_Pet_Fragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    String id;
+    LostRecord lostRecord;
+
+    GoogleMap map;
+
+    private FirebaseFirestore db;
+    private CollectionReference lostCollection;
+
+    TextView petname;
+    TextView owner;
+    TextView age;
+    TextView breed;
+    TextView color;
+    TextView dateofloss;
+    TextView award;
+    TextView Description;
+    TextView phone;
+
+
+
 
     public Display_Pet_Fragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Display_Pet_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Display_Pet_Fragment newInstance(String param1, String param2) {
-        Display_Pet_Fragment fragment = new Display_Pet_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            id = getArguments().getString("id",null);
         }
+
+        db = FirebaseFirestore.getInstance();
+        lostCollection = db.collection("LostRecords");
+        DocumentReference documentReference = lostCollection.document(id);
+
+
+        // Execute the query and get the results
+        Task<DocumentSnapshot> task = documentReference.get();
+
+        task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                // Check if any documents were found
+                if (documentSnapshot != null) {
+
+                    // Get the data from the document snapshot
+                    lostRecord = documentSnapshot.toObject(LostRecord.class);
+
+
+                } else {
+                    Toast toast = Toast.makeText(getContext().getApplicationContext(), "something went wrong", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
+
+
+        task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Handle the error
+            }
+        });
+
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_display__pet_, container, false);
+
+        petname = view.findViewById(R.id.petname_textview);
+        owner = view.findViewById(R.id.ownerTextView);
+        age = view.findViewById(R.id.ageTextView);
+        breed = view.findViewById(R.id.breedTextView);
+        color = view.findViewById(R.id.color_textview);
+        dateofloss = view.findViewById(R.id.dateOfLoss_textView);
+        award = view.findViewById(R.id.award_textView);
+        //description= view.findViewById(R.id.description_textView);
+        phone = view.findViewById(R.id.phoneTextView);
+
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_display__pet_, container, false);
+        return view;
     }
 }

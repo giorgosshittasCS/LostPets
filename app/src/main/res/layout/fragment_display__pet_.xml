@@ -57,7 +57,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/petname_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -84,7 +84,7 @@
                 android:layout_marginEnd="48dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                app:layout_constraintTop_toBottomOf="@+id/petname_textview" />
 
             <TextView
                 android:id="@+id/ageTextView"
@@ -147,7 +147,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/breedTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -157,34 +157,34 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
             <TextView
-                android:id="@+id/textView20"
+                android:id="@+id/color_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="48dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                app:layout_constraintTop_toBottomOf="@+id/breedTextView" />
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/dateOfLoss_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="48dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView20" />
+                app:layout_constraintTop_toBottomOf="@+id/color_textview" />
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/award_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="48dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView21" />
+                app:layout_constraintTop_toBottomOf="@+id/dateOfLoss_textView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
@@ -222,7 +222,7 @@
                 />
 
             <TextView
-                android:id="@+id/buttonText"
+                android:id="@+id/phoneTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

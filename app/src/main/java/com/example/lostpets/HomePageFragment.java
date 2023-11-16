@@ -74,7 +74,6 @@ public class HomePageFragment extends Fragment {
     public static HomePageFragment newInstance() {
         HomePageFragment fragment = new HomePageFragment();
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -139,7 +138,7 @@ public class HomePageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-         bottomNavigationView = view.findViewById(R.id.bottom_navigation);
+        bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
@@ -155,6 +154,7 @@ public class HomePageFragment extends Fragment {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             LostRecord pet = document.toObject(LostRecord.class);
+                            pet.setId(document.getId());
                             pets.add(pet);
                         }
 
@@ -193,9 +193,16 @@ public class HomePageFragment extends Fragment {
                 cityTextView.setText(petItem.getCity());
                 contactTextView.setText(petItem.getContact());
                 convertView.setOnClickListener(v -> {
+
+                    Display_Pet_Fragment displayPetFragment = new Display_Pet_Fragment();
+                    Bundle bundle = new Bundle();
+
+                    bundle.putString("id", petItem.getId());
+
+                    displayPetFragment.setArguments(bundle);
                     //Put the index of the item in the helper Class so i can use it in the MovieInfoFragment to retrieve the data.
                     NavHostFragment.findNavController(HomePageFragment.this)
-                            .navigate(R.id.action_Home_to_Display);
+                            .navigate(R.id.action_Home_to_Display,bundle);
                 });
             }
 

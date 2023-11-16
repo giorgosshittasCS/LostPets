@@ -41,6 +41,8 @@ import com.google.firebase.firestore.GeoPoint;
 //    }
 //}
 public class LostRecord {
+
+    private String id;
     private String petname;
     private String owner;
     private String age;
@@ -162,5 +164,13 @@ public class LostRecord {
 
     public void setPic(String pic) {
         this.pic = pic;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
