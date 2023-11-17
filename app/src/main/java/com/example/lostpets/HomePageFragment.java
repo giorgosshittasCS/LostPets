@@ -26,8 +26,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.lostpets.Classes.LostRecord;
+import com.example.lostpets.Classes.User;
 import com.example.lostpets.databinding.FragmentHomePageBinding;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentChange;
@@ -44,7 +47,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kotlin.collections.ArrayDeque;
 
@@ -61,12 +66,6 @@ public class HomePageFragment extends Fragment {
     private List<LostRecord> pets;
 
     private ListView petsListView;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
 
     public HomePageFragment() {
@@ -84,39 +83,38 @@ public class HomePageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
-//        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder(db.getFirestoreSettings())
-//                .setLocalCacheSettings(PersistentCacheSettings.newBuilder().build())
-//                .build();
-//        db.collection("LostRecords")
-//                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot querySnapshot,
-//                                        @Nullable FirebaseFirestoreException e) {
-//                        if (e != null) {
-//                            Log.w(TAG, "Listen error", e);
-//                            return;
-//                        }
-//
-//                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
-//                            switch (change.getType()) {
-//                                case ADDED:
-//                                    Log.d(TAG, "New favorite:" + change.getDocument().getData());
-//                                    break;
-//                                case MODIFIED:
-//                                    Log.d(TAG, "Modified favorite:" + change.getDocument().getData());
-//                                    break;
-//                                case REMOVED:
-//                                    Log.d(TAG, "Removed favorite:" + change.getDocument().getData());
-//                                    break;
-//                            }
-//
-//                            String source = querySnapshot.getMetadata().isFromCache() ?
-//                                    "local cache" : "server";
-//                            Log.d(TAG, "Data fetched from " + source);
-//                        }
-//                    }
-//                });
 
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder(db.getFirestoreSettings())
+                .setLocalCacheSettings(PersistentCacheSettings.newBuilder().build())
+                .build();
+        db.collection("LostRecords")
+                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot querySnapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen error", e);
+                            return;
+                        }
+                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
+                            switch (change.getType()) {
+                                case ADDED:
+                                    Log.d(TAG, "New favorite:" + change.getDocument().getData());
+                                    break;
+                                case MODIFIED:
+                                    Log.d(TAG, "Modified favorite:" + change.getDocument().getData());
+                                    break;
+                                case REMOVED:
+                                    Log.d(TAG, "Removed favorite:" + change.getDocument().getData());
+                                    break;
+                            }
+
+                            String source = querySnapshot.getMetadata().isFromCache() ?
+                                    "local cache" : "server";
+                            Log.d(TAG, "Data fetched from " + source);
+                        }
+                    }
+                });
 
 
     }
@@ -126,7 +124,7 @@ public class HomePageFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        binding=FragmentHomePageBinding.inflate(inflater,container,false);
+        binding = FragmentHomePageBinding.inflate(inflater, container, false);
         //View view = inflater.inflate(R.layout.fragment_home_page, container, false);
         View view = binding.getRoot();
 
@@ -134,7 +132,8 @@ public class HomePageFragment extends Fragment {
         displayPetsList();
         return view;
     }
-    public void onViewCreated( View view, Bundle savedInstanceState) {
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
 
@@ -149,23 +148,19 @@ public class HomePageFragment extends Fragment {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                if(item.getItemId()==R.id.nav_add) {
+                if (item.getItemId() == R.id.nav_add) {
                     NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_Add);
                     return true;
-                }
-                else if(item.getItemId()==R.id.nav_home) {
+                } else if (item.getItemId() == R.id.nav_home) {
                     NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_Home);
                     return true;
-                }
-                else if(item.getItemId()==R.id.nav_settings) {
+                } else if (item.getItemId() == R.id.nav_settings) {
                     NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_Settings);
                     return true;
-                }
-                else if(item.getItemId()==R.id.nav_user) {
+                } else if (item.getItemId() == R.id.nav_user) {
                     NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_User);
                     return true;
-                }
-                else if(item.getItemId()==R.id.nav_like) {
+                } else if (item.getItemId() == R.id.nav_like) {
                     NavHostFragment.findNavController(HomePageFragment.this).navigate(R.id.action_This_to_Favourites);
                     return true;
                 }
@@ -176,11 +171,12 @@ public class HomePageFragment extends Fragment {
         });
 
     }
+
     //        Menu menu = navigationView.getMenu();
 //        MenuItem likeIcon = menu.findItem(R.id.nav_home);
 //        likeIcon.setIcon(R.drawable.white_home_icon);
-    public void displayPetsList(){
-        pets=new ArrayList<LostRecord>();
+    public void displayPetsList() {
+        pets = new ArrayList<LostRecord>();
         db.collection("LostRecords") // Replace "movies" with your collection name
                 .get()
                 .addOnCompleteListener(task -> {
@@ -193,7 +189,7 @@ public class HomePageFragment extends Fragment {
 
 
                         //Create an adapter so i can display all the movies dynamically
-                       PetsAdapter adapter = new PetsAdapter(requireContext(), pets);
+                        PetsAdapter adapter = new PetsAdapter(requireContext(), pets);
 
                         petsListView.setAdapter(adapter);
                     } else {
@@ -225,19 +221,21 @@ public class HomePageFragment extends Fragment {
                     if (clickedPet != null) {
                         Drawable redHeartDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.like_icon_red);
                         heartIcon.setImageDrawable(redHeartDrawable);
-                        Log.d("DogID",clickedPet.getId());
+                        Log.d("DogID", clickedPet.getId());
 
                         // Add favourite in database
+                        updateFavoriteStatus(clickedPet.getId(), User.user);
+
                     }
                 }
             });
 
             LostRecord petItem = getItem(position);
-            TextView ownerTextView=convertView.findViewById(R.id.ownerText);
-            TextView nameTextView=convertView.findViewById(R.id.nameText);
-            TextView cityTextView=convertView.findViewById(R.id.cityText);
-            TextView contactTextView=convertView.findViewById(R.id.contactText);
-            if (petItem!= null) {
+            TextView ownerTextView = convertView.findViewById(R.id.ownerText);
+            TextView nameTextView = convertView.findViewById(R.id.nameText);
+            TextView cityTextView = convertView.findViewById(R.id.cityText);
+            TextView contactTextView = convertView.findViewById(R.id.contactText);
+            if (petItem != null) {
                 ownerTextView.setText(petItem.getOwner());
                 nameTextView.setText(petItem.getName());
                 cityTextView.setText(petItem.getCity());
@@ -252,11 +250,37 @@ public class HomePageFragment extends Fragment {
                     displayPetFragment.setArguments(bundle);
                     //Put the index of the item in the helper Class so i can use it in the MovieInfoFragment to retrieve the data.
                     NavHostFragment.findNavController(HomePageFragment.this)
-                            .navigate(R.id.action_This_to_Display,bundle);
+                            .navigate(R.id.action_This_to_Display, bundle);
                 });
             }
 
             return convertView;
         }
     }
+
+
+    private void updateFavoriteStatus(String petId, String username) {
+        // Create a new document in the "favorites" collection with the same ID as in "lostpets"
+        Map<String, Object> favoriteData = new HashMap<>();
+        favoriteData.put("dogId", petId);
+        favoriteData.put("username", username);
+
+        db.collection("favorites")
+                .document(petId) // Set the document ID to be the same as in "lostpets"
+                .set(favoriteData)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Favorite document successfully added!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding favorite document", e);
+                    }
+                });
+    }
+
+
 }

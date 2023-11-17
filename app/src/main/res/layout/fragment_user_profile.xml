@@ -34,8 +34,10 @@ android:fitsSystemWindows="true"
             app:layout_constraintVertical_bias="0.151"></TextView>
 
         <ImageView
+            android:id="@+id/imageView3"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:src="@drawable/bio_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -43,45 +45,34 @@ android:fitsSystemWindows="true"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.225"></ImageView>
 
-        <TextView
-            android:id="@+id/username_textView_userprofile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Johny Jones"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.372"></TextView>
-
 
         <androidx.cardview.widget.CardView
             android:id="@+id/username_cardview_userprofile"
-            android:layout_width="match_parent"
-            android:layout_height="43dp"
+            android:layout_width="348dp"
+            android:layout_height="52dp"
             android:layout_marginStart="28dp"
-            android:layout_marginEnd="28dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="50dp"
             app:cardCornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username_textView_userprofile">
+            app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
             <EditText
                 android:id="@+id/username_editText_userprofile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:ems="10"
+                android:hint="Username"
                 android:inputType="text"
-                android:hint="Name" />
+                android:paddingLeft="10dp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/phonenumber_cardview_userprofile"
-            android:layout_width="match_parent"
-            android:layout_height="43dp"
+            android:layout_width="349dp"
+            android:layout_height="45dp"
             android:layout_marginStart="28dp"
-            android:layout_marginEnd="28dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             app:cardCornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/username_cardview_userprofile">
@@ -89,19 +80,20 @@ android:fitsSystemWindows="true"
             <EditText
                 android:id="@+id/phonenumber_editText_userprofile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:ems="10"
+                android:hint="PhoneNumber"
                 android:inputType="text"
-                android:hint="PhoneNumber" />
+                android:paddingLeft="10dp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/password_cardview_userprofile"
-            android:layout_width="match_parent"
-            android:layout_height="43dp"
+            android:layout_width="352dp"
+            android:layout_height="48dp"
             android:layout_marginStart="28dp"
-            android:layout_marginEnd="28dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             app:cardCornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phonenumber_cardview_userprofile">
@@ -109,15 +101,17 @@ android:fitsSystemWindows="true"
             <EditText
                 android:id="@+id/password_editText_userprofile"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:ems="10"
+                android:hint="Password"
                 android:inputType="text"
-                android:hint="Password" />
+                android:paddingLeft="10dp" />
         </androidx.cardview.widget.CardView>
 
 
         <Button
-            android:id="@+id/update_button_userprofile"
+            android:id="@+id/updateButton"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
 
@@ -128,7 +122,37 @@ android:fitsSystemWindows="true"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.759" />
+            app:layout_constraintVertical_bias="0.783" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="20dp"
+            android:text="Username:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="4dp"
+            android:text="Phone number:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/username_cardview_userprofile" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:text="Password:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/phonenumber_cardview_userprofile" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
