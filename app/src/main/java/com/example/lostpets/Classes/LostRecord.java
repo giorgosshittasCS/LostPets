@@ -43,7 +43,7 @@ import com.google.firebase.firestore.GeoPoint;
 public class LostRecord {
 
     private String id;
-    private String petname;
+    private String name;
     private String owner;
     private String age;
     private String breed;
@@ -64,7 +64,7 @@ public class LostRecord {
         this.color = color;
         this.date = date;
         this.description = description;
-        this.petname = name;
+        this.name = name;
         this.location = location;
         this.city=city;
         this.owner=owner;
@@ -107,7 +107,7 @@ public class LostRecord {
 
 
     public void setName(String name) {
-        this.petname = name;
+        this.name = name;
     }
 
 
@@ -147,7 +147,7 @@ public class LostRecord {
     }
 
     public String getName() {
-        return petname;
+        return name;
     }
     public String getContact() {
         return contact;

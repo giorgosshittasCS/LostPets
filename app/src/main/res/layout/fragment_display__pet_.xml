@@ -77,7 +77,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/petnameText" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/owner_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -137,14 +137,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/age_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="68dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+                app:layout_constraintTop_toBottomOf="@+id/owner_TextView" />
 
             <TextView
                 android:id="@+id/breedTextView"
@@ -154,7 +154,7 @@
                 android:layout_marginEnd="68dp"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView18" />
+                app:layout_constraintTop_toBottomOf="@+id/age_TextView" />
 
             <TextView
                 android:id="@+id/color_textview"
@@ -235,27 +235,25 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+
+    <FrameLayout
         android:id="@+id/cardView31"
-        android:layout_width="326dp"
-        android:layout_height="242dp"
+        android:layout_width="378dp"
+        android:layout_height="456dp"
         android:layout_marginTop="10dp"
-        app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView23">
 
-        <FrameLayout
-            android:id="@+id/locationFrame"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/map_d"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FFFFFF">
+            app:defaultNavHost="true" />
 
-        </FrameLayout>
-    </androidx.cardview.widget.CardView>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/textView23"
@@ -283,7 +281,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/description_textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
