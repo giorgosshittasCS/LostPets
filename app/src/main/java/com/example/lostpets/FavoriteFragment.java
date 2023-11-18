@@ -32,7 +32,6 @@ import com.example.lostpets.Classes.Favorites;
 import com.example.lostpets.Classes.LostRecord;
 import com.example.lostpets.Classes.User;
 import com.example.lostpets.databinding.FragmentFavoriteBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -148,159 +147,85 @@ public class FavoriteFragment extends Fragment {
                         Log.d("Firestore", "Error getting documents: ", task.getException());
                     }
                 });
+    }
+
+
+    private class PetsAdapter extends ArrayAdapter<Favorites> {
+
+        PetsAdapter(android.content.Context context, List<Favorites> favs) {
+            super(context, R.layout.list_item_pet, favs);
         }
 
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pet, parent, false);
 
-        private class PetsAdapter extends ArrayAdapter<Favorites> {
+            }
+            ImageView heartIcon = convertView.findViewById(R.id.like);
 
-            PetsAdapter(android.content.Context context, List<Favorites> favs) {
-                super(context, R.layout.list_item_favorite, favs);
+            Favorites f = getItem(position);
+            TextView ownerTextView = convertView.findViewById(R.id.ownerText);
+            TextView nameTextView = convertView.findViewById(R.id.nameText);
+            TextView cityTextView = convertView.findViewById(R.id.cityText);
+            TextView contactTextView = convertView.findViewById(R.id.contactText);
+            ImageView petimage = convertView.findViewById(R.id.homeroundedImageView);
+
+
+            if (f != null) {
+
+                //na pkianno ta info na gemonno ta textsviews
+
+                Task<DocumentSnapshot> task = db.collection("LostRecords").document(f.getRecordId()).get();
+                task.addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        LostRecord lostRecord = documentSnapshot.toObject(LostRecord.class);
+                        ownerTextView.setText(lostRecord.getOwner());
+                        nameTextView.setText(lostRecord.getName());
+                        cityTextView.setText(lostRecord.getCity());
+                        contactTextView.setText(lostRecord.getContact());
+                        byte[] decodedBytes = Base64.decode(lostRecord.getPic(), Base64.DEFAULT);
+                        Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                        petimage.setImageBitmap(decodedBitmap);
+                    }
+                });
+
+
+                convertView.setOnClickListener(v -> {
+                    Display_Pet_Fragment displayPetFragment = new Display_Pet_Fragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", f.getRecordId());
+                    displayPetFragment.setArguments(bundle);
+                    NavHostFragment.findNavController(FavoriteFragment.this)
+                            .navigate(R.id.action_This_to_Display, bundle);
+                });
+
+                Drawable redHeartDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.like_icon_red);
+                heartIcon.setImageDrawable(redHeartDrawable);
+
+
+
+                heartIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        db.collection("favorites").document(f.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(requireContext(), "Record removed from favorites", Toast.LENGTH_SHORT).show();
+                                NavHostFragment.findNavController(FavoriteFragment.this).navigate(R.id.action_This_to_Favourites);
+                            }
+                        });
+                    }
+                });
+
+
             }
 
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView == null) {
-                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_favorite, parent, false);
-
-                }
-                ImageView heartIcon = convertView.findViewById(R.id.like);
-
-                Favorites f = getItem(position);
-                TextView ownerTextView = convertView.findViewById(R.id.ownerText);
-                TextView nameTextView = convertView.findViewById(R.id.nameText);
-                TextView cityTextView = convertView.findViewById(R.id.cityText);
-                TextView contactTextView = convertView.findViewById(R.id.contactText);
-                ImageView favoriteImageView =convertView.findViewById(R.id.favouriteImageView);
-//
-                if (f != null) {
-
-                    //na pkianno ta info na gemonno ta textsviews
-                    db.collection("LostRecords")
-                            .document(f.getId())
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            LostRecord pet = document.toObject(LostRecord.class);
-                                            ownerTextView.setText(pet.getOwner());
-                                            nameTextView.setText(pet.getName());
-                                            cityTextView.setText(pet.getCity());
-                                            contactTextView.setText(pet.getContact());
-                                            byte[] decodedBytes = Base64.decode(pet.getPic(), Base64.DEFAULT);
-                                            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                                            favoriteImageView.setImageBitmap(decodedBitmap);
-                                            Log.d("Found", "User found ");
-                                        } else {
-                                            Log.d("No such document", "No such document");
-                                        }
-                                    } else {
-                                        Log.w("Error retrieving", "Error getting document.", task.getException());
-                                    }
-                                }
-                            });
-
-
-                    convertView.setOnClickListener(v -> {
-                        Display_Pet_Fragment displayPetFragment = new Display_Pet_Fragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", f.getId());
-                        displayPetFragment.setArguments(bundle);
-                        NavHostFragment.findNavController(FavoriteFragment.this)
-                                .navigate(R.id.action_This_to_Display, bundle);
-                    });
-
-                    Drawable redHeartDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.like_icon_red);
-                    heartIcon.setImageDrawable(redHeartDrawable);
-
-//                    // Create a query to filter the collection by the `title` attribute
-//                    Query query = db.collection("favorites").whereEqualTo("username", User.user).whereEqualTo("dogId",f.getId());
-//                    // Execute the query and get the results
-//                    Task<QuerySnapshot> task = query.get();
-//                    task.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-//                        @Override
-//                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-//                            if(!queryDocumentSnapshots.isEmpty()){
-//                                Drawable redHeartDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.like_icon_red);
-//                                heartIcon.setImageDrawable(redHeartDrawable);
-//                            }else{
-//                                Drawable defaultHeartDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.like_icon);
-//                                heartIcon.setImageDrawable(defaultHeartDrawable);
-//                            }
-//                        }
-//                    });
-
-                    heartIcon.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            db.collection("favorites").document(f.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(requireContext(), "Record removed from favorites", Toast.LENGTH_SHORT).show();
-                                    NavHostFragment.findNavController(FavoriteFragment.this).navigate(R.id.action_This_to_Favourites);
-                                }
-                            });
-                        }
-                    });
-
-
-
-//                View finalConvertView = convertView;
-//                checkFavoriteStatus(petItem.getId(), User.user, new OnCheckFavoriteListener() {
-//                    @Override
-//                    public void onCheckComplete(boolean isFavorite) {
-//                        Drawable heartDrawable = isFavorite ?
-//                                ContextCompat.getDrawable(requireContext(), R.drawable.like_icon_red) :
-//                                ContextCompat.getDrawable(requireContext(), R.drawable.like_icon);
-//                        heartIcon.setImageDrawable(heartDrawable);
-//
-//                        finalConvertView.setOnClickListener(v -> {
-//                            Display_Pet_Fragment displayPetFragment = new Display_Pet_Fragment();
-//                            Bundle bundle = new Bundle();
-//                            bundle.putString("id", petItem.getId());
-//                            displayPetFragment.setArguments(bundle);
-//                            NavHostFragment.findNavController(HomePageFragment.this)
-//                                    .navigate(R.id.action_This_to_Display, bundle);
-//                        });
-//
-//                        // Set a click listener for the heart icon
-//                        heartIcon.setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                LostRecord clickedPet = getItem(position);
-//
-//                                if (clickedPet != null) {
-//                                    checkFavoriteStatus(clickedPet.getId(), User.user, new OnCheckFavoriteListener() {
-//                                        @Override
-//                                        public void onCheckComplete(boolean isFavorite) {
-//                                            if (isFavorite) {
-//                                                removeFavorite(clickedPet.getId(), User.user);
-//                                                Drawable defaultHeartDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.like_icon);
-//                                                heartIcon.setImageDrawable(defaultHeartDrawable);
-//                                            } else {
-//                                                System.out.println("id " + clickedPet.getId());
-//                                                addFavorite(clickedPet.getId(), User.user);
-//                                                Drawable redHeartDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.like_icon_red);
-//                                                heartIcon.setImageDrawable(redHeartDrawable);
-//                                            }
-//                                        }
-//                                    }, heartIcon);
-//                                }
-//                            }
-//                        });
-//                    }
-//                }, heartIcon);
-
-
-
-                }
-
-                return convertView;
-            }
+            return convertView;
         }
+    }
 
 }
 
