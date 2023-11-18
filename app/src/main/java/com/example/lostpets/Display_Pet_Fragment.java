@@ -24,15 +24,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lostpets.Classes.LostRecord;
-import com.example.lostpets.Classes.User;
-import com.example.lostpets.databinding.FragmentHomePageBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
@@ -54,11 +50,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
 
 
 public class Display_Pet_Fragment extends Fragment {
@@ -196,7 +187,7 @@ public class Display_Pet_Fragment extends Fragment {
         award = view.findViewById(R.id.award_textView);
         description = view.findViewById(R.id.description_textView);
         phone = view.findViewById(R.id.phoneTextView);
-        petimage=view.findViewById(R.id.roundedImageView);
+        petimage=view.findViewById(R.id.favouriteImageView);
 
         DocumentReference documentReference = lostCollection.document(id);
 

@@ -3,6 +3,8 @@ package com.example.lostpets;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -14,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,6 +32,7 @@ import com.example.lostpets.Classes.Favorites;
 import com.example.lostpets.Classes.LostRecord;
 import com.example.lostpets.Classes.User;
 import com.example.lostpets.databinding.FragmentFavoriteBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -150,13 +154,13 @@ public class FavoriteFragment extends Fragment {
         private class PetsAdapter extends ArrayAdapter<Favorites> {
 
             PetsAdapter(android.content.Context context, List<Favorites> favs) {
-                super(context, R.layout.list_item_pet, favs);
+                super(context, R.layout.list_item_favorite, favs);
             }
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 if (convertView == null) {
-                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_pet, parent, false);
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_favorite, parent, false);
 
                 }
                 ImageView heartIcon = convertView.findViewById(R.id.like);
@@ -166,17 +170,43 @@ public class FavoriteFragment extends Fragment {
                 TextView nameTextView = convertView.findViewById(R.id.nameText);
                 TextView cityTextView = convertView.findViewById(R.id.cityText);
                 TextView contactTextView = convertView.findViewById(R.id.contactText);
-
+                ImageView favoriteImageView =convertView.findViewById(R.id.favouriteImageView);
+//
                 if (f != null) {
 
                     //na pkianno ta info na gemonno ta textsviews
-
+                    db.collection("LostRecords")
+                            .document(f.getId())
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            LostRecord pet = document.toObject(LostRecord.class);
+                                            ownerTextView.setText(pet.getOwner());
+                                            nameTextView.setText(pet.getName());
+                                            cityTextView.setText(pet.getCity());
+                                            contactTextView.setText(pet.getContact());
+                                            byte[] decodedBytes = Base64.decode(pet.getPic(), Base64.DEFAULT);
+                                            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                                            favoriteImageView.setImageBitmap(decodedBitmap);
+                                            Log.d("Found", "User found ");
+                                        } else {
+                                            Log.d("No such document", "No such document");
+                                        }
+                                    } else {
+                                        Log.w("Error retrieving", "Error getting document.", task.getException());
+                                    }
+                                }
+                            });
 
 
                     convertView.setOnClickListener(v -> {
                         Display_Pet_Fragment displayPetFragment = new Display_Pet_Fragment();
                         Bundle bundle = new Bundle();
-                        bundle.putString("id", f.getRecordId());
+                        bundle.putString("id", f.getId());
                         displayPetFragment.setArguments(bundle);
                         NavHostFragment.findNavController(FavoriteFragment.this)
                                 .navigate(R.id.action_This_to_Display, bundle);

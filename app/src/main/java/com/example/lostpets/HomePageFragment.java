@@ -2,6 +2,8 @@ package com.example.lostpets;
 
 import static android.content.ContentValues.TAG;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -14,6 +16,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -99,13 +102,13 @@ public class HomePageFragment extends Fragment {
                         for (DocumentChange change : querySnapshot.getDocumentChanges()) {
                             switch (change.getType()) {
                                 case ADDED:
-                                    Log.d(TAG, "New favorite:" + change.getDocument().getData());
+                                    Log.d(TAG, "New Lost Record:");
                                     break;
                                 case MODIFIED:
-                                    Log.d(TAG, "Modified favorite:" + change.getDocument().getData());
+                                    Log.d(TAG, "Modified Lost Record:" );
                                     break;
                                 case REMOVED:
-                                    Log.d(TAG, "Removed favorite:" + change.getDocument().getData());
+                                    Log.d(TAG, "Removed Lost Record:" );
                                     break;
                             }
 
@@ -235,11 +238,18 @@ public class HomePageFragment extends Fragment {
             TextView nameTextView = convertView.findViewById(R.id.nameText);
             TextView cityTextView = convertView.findViewById(R.id.cityText);
             TextView contactTextView = convertView.findViewById(R.id.contactText);
+            ImageView petimage=convertView.findViewById(R.id.homeroundedImageView);
+
             if (petItem != null) {
                 ownerTextView.setText(petItem.getOwner());
                 nameTextView.setText(petItem.getName());
                 cityTextView.setText(petItem.getCity());
                 contactTextView.setText(petItem.getContact());
+
+                byte[] decodedBytes = Base64.decode(petItem.getPic(), Base64.DEFAULT);
+                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                petimage.setImageBitmap(decodedBitmap);
+
                 convertView.setOnClickListener(v -> {
 
                     Display_Pet_Fragment displayPetFragment = new Display_Pet_Fragment();
