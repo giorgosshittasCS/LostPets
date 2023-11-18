@@ -95,7 +95,7 @@ public class DisplayBreedsFragment extends Fragment {
         UrlRequest request = requestBuilder.build();
         // here we make the actual api call
         request.start();
-    }
+    }//
     public void updateBreedInfoTextView(String breedData) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
