@@ -12,10 +12,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,6 +52,8 @@ public class LoginFragment extends Fragment {
     private FirebaseMessagingService firebaseMessagingService;
     private FirebaseFirestore db;
     private CollectionReference usersCollection;
+    private CheckBox showPasswordCheckbox;
+    private EditText passwordEditText;
 
     private User user;
 
@@ -79,7 +84,7 @@ public class LoginFragment extends Fragment {
         binding = FragmentLoginBinding.inflate(inflater, container, false);
 
         username_edittext = binding.getRoot().findViewById(R.id.username_editText);
-        password_edittext = binding.getRoot().findViewById(R.id.password_edittext);
+        password_edittext = binding.getRoot().findViewById(R.id.password_login_edittext);
 
 
         return binding.getRoot();
@@ -155,8 +160,26 @@ public class LoginFragment extends Fragment {
 
             }
         });
+        showPasswordCheckbox = view.findViewById(R.id.showPasswordLoginCheckbox);
+        passwordEditText = view.findViewById(R.id.password_login_edittext);
+        // Set a listener for checkbox clicks
+        showPasswordCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Toggle password visibility based on checkbox state
+                togglePasswordVisibility(isChecked);
+            }
+        });
     }
-
+    private void togglePasswordVisibility(boolean showPassword) {
+        if (showPassword) {
+            // Show the password as plain text
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        } else {
+            // Hide the password with asterisks
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -1,29 +1,37 @@
 package com.example.lostpets;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +44,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lostpets.Classes.LostRecord;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,6 +58,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -84,6 +96,96 @@ public class AddRecordFragment extends Fragment {
     private CollectionReference recordsCollection;
     private BottomNavigationView bottomNavigationView;
 
+    private FusedLocationProviderClient fusedLocationClient;
+
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // Permission is granted. Get the location.
+                    getCurrentLocation();
+                } else {
+                    notPermissionGrantedLocation();
+                }
+            });
+    private void notPermissionGrantedLocation(){
+        LatLng Cyprus = new LatLng(35.05466266197189, 33.22446841746569);
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(Cyprus,8));
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+
+            @Override
+            public void onMapClick(@NonNull LatLng latLng) {
+                geoPoint = new GeoPoint(latLng.latitude,latLng.longitude);
+                MarkerOptions markerOptions=new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title(latLng.latitude+" KG "+latLng.longitude);
+                map.clear();
+//                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,8));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,6));
+                map.addMarker(markerOptions);
+
+
+                Circle circle = map.addCircle(new CircleOptions()
+                        .center(new LatLng(latLng.latitude, latLng.longitude))
+                        .radius(1000)
+                        .strokeColor(Color.RED)
+                        .fillColor(Color.argb(48, 0, 0, 255))); // Set blue color with 20% transparency
+            }
+        });
+
+    }
+
+    private void getCurrentLocation(){
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.black_home_icon);
+
+        int width = 50;
+        int height = 50;
+
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, false);
+        BitmapDescriptor resizedIcon = BitmapDescriptorFactory.fromBitmap(resizedBitmap);
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                    .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                LatLng myplace = new LatLng(location.getLatitude(), location.getLongitude());
+                                map.addMarker(new MarkerOptions()
+                                                .position(myplace)
+                                                .title("My Location")
+                                                .icon(resizedIcon))
+                                        .setTag("Home Marker");
+                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace,10));
+                                map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                                    @Override
+                                    public void onMapClick(@NonNull LatLng latLng) {
+                                        geoPoint = new GeoPoint(latLng.latitude,latLng.longitude);
+                                        MarkerOptions markerOptions=new MarkerOptions();
+                                        markerOptions.position(latLng);
+                                        markerOptions.title(latLng.latitude+" KG "+latLng.longitude);
+
+                                        map.clear();
+                                        map.addMarker(new MarkerOptions()
+                                                        .position(myplace)
+                                                        .title("My Location")
+                                                        .icon(resizedIcon))
+                                                .setTag("Home Marker");
+                                        map.addMarker(markerOptions);
+
+                                        Circle circle = map.addCircle(new CircleOptions()
+                                                .center(new LatLng(latLng.latitude, latLng.longitude))
+                                                .radius(1000)
+                                                .strokeColor(Color.RED)
+                                                .fillColor(Color.argb(48, 0, 0, 255))); // Set blue color with 20% transparency
+                                    }
+                                });
+
+                            }
+                        }
+                    });
+        }
+    }
     public AddRecordFragment() {
         // Required empty public constructor
     }
@@ -102,7 +204,7 @@ public class AddRecordFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_record, container, false);
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         petname = view.findViewById(R.id.petNameText);
         owner = view.findViewById(R.id.ownerText);
         age = view.findViewById(R.id.ageText);
@@ -174,27 +276,17 @@ public class AddRecordFragment extends Fragment {
             public void onMapReady(@NonNull GoogleMap googleMap) {
 
                 map = googleMap;
+                if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    // Permission is not granted. Request it using ActivityResultLauncher.
+                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+                } else {
+                    // Permission is granted. Get the location.
 
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(@NonNull LatLng latLng) {
-                        geoPoint = new GeoPoint(latLng.latitude,latLng.longitude);
-                        MarkerOptions markerOptions=new MarkerOptions();
-                        markerOptions.position(latLng);
-                        markerOptions.title(latLng.latitude+" KG "+latLng.longitude);
-                        googleMap.clear();
-//                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,8));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                        googleMap.addMarker(markerOptions);
+                    getCurrentLocation();
+                }
 
 
-                        Circle circle = map.addCircle(new CircleOptions()
-                                .center(new LatLng(latLng.latitude, latLng.longitude))
-                                .radius(1000)
-                                .strokeColor(Color.RED)
-                                .fillColor(Color.argb(48, 0, 0, 255))); // Set blue color with 20% transparency
-                    }
-                });
 
             }
         });
@@ -208,6 +300,7 @@ public class AddRecordFragment extends Fragment {
     }
     public void onViewCreated( View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
 
         BottomNavigationView bottomNavigationView;
@@ -274,11 +367,12 @@ public class AddRecordFragment extends Fragment {
             // Get the selected image URI
             Uri selectedImageUri = data.getData();
             ImageView imageFrame=getView().findViewById(R.id.imageView2);
-//            try {
-//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImageUri);
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireActivity().getContentResolver(), selectedImageUri);
+                imageFrame.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 // Convert the image URI to a byte array
                 InputStream inputStream = requireActivity().getContentResolver().openInputStream(selectedImageUri);
@@ -287,11 +381,11 @@ public class AddRecordFragment extends Fragment {
                 // Convert the byte array to a Base64 string
                 base64String = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-                byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
-
-                // Convert the byte array to a Bitmap
-                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                imageFrame.setImageBitmap(decodedBitmap);
+//                byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
+//
+//                // Convert the byte array to a Bitmap
+//                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+//                imageFrame.setImageBitmap(decodedBitmap);
                 // Now you can use base64String as needed (store it, send it to a server, etc.)
                 // Note: You might want to handle permission checks and other error scenarios here
             } catch (IOException e) {

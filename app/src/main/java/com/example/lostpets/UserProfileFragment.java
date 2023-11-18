@@ -9,12 +9,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +50,8 @@ public class UserProfileFragment extends Fragment {
     private EditText password_edit_text;
     private DocumentReference docRef;
     private FirebaseFirestore db;
+    private CheckBox showPasswordCheckbox;
+    private EditText passwordEditText;
     private CollectionReference usersCollection;
 
     public UserProfileFragment() {
@@ -170,6 +175,27 @@ public class UserProfileFragment extends Fragment {
 
             }
         });
+
+        showPasswordCheckbox = view.findViewById(R.id.showPasswordCheckbox);
+        passwordEditText = view.findViewById(R.id.password_editText_userprofile);
+        // Set a listener for checkbox clicks
+        showPasswordCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Toggle password visibility based on checkbox state
+                togglePasswordVisibility(isChecked);
+            }
+        });
+
+    }
+    private void togglePasswordVisibility(boolean showPassword) {
+        if (showPassword) {
+            // Show the password as plain text
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        } else {
+            // Hide the password with asterisks
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
     }
 
 }

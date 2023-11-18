@@ -133,9 +133,16 @@
         <action
             android:id="@+id/action_This_to_User"
             app:destination="@id/UserProfileFragment" />
+        <action
+            android:id="@+id/action_This_to_Breeds"
+            app:destination="@id/BreedsFragment" />
 
     </fragment>
-
+    <fragment
+        android:id="@+id/BreedsFragment"
+        android:name="com.example.lostpets.Classes.DisplayBreedsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_display_breeds"/>
 
     <fragment
         android:id="@+id/ContactUsFragment"

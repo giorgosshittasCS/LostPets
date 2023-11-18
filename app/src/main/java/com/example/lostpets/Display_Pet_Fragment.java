@@ -1,15 +1,24 @@
 package com.example.lostpets;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -17,16 +26,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lostpets.Classes.LostRecord;
 import com.example.lostpets.Classes.User;
 import com.example.lostpets.databinding.FragmentHomePageBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -56,7 +71,7 @@ public class Display_Pet_Fragment extends Fragment {
 
     private FirebaseFirestore db;
     private CollectionReference lostCollection;
-
+    private FusedLocationProviderClient fusedLocationClient;
     TextView petname;
     TextView owner;
     TextView age;
@@ -67,8 +82,80 @@ public class Display_Pet_Fragment extends Fragment {
     TextView description;
     TextView phone;
 
+    ImageView petimage;
+    private ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // Permission is granted. Get the location.
+                    getCurrentLocation();
+                } else {
+                    notPermissionGrantedLocation();
+                }
+            });
+    private void getCurrentLocation(){
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.black_home_icon);
+
+        int width = 50;
+        int height = 50;
+
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, width, height, false);
+        BitmapDescriptor resizedIcon = BitmapDescriptorFactory.fromBitmap(resizedBitmap);
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                    .addOnSuccessListener(requireActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                LatLng myplace = new LatLng(location.getLatitude(), location.getLongitude());
+                                map.addMarker(new MarkerOptions()
+                                                .position(myplace)
+                                                .title("My Location")
+                                                .icon(resizedIcon))
+                                        .setTag("Home Marker");
+//                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace,10));
+
+                                        MarkerOptions markerOptions=new MarkerOptions();
+                                        markerOptions.position(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude()));
+                                        map.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude())));
+                                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude()),13));
+
+                                        map.addMarker(markerOptions);
+
+                                        Circle circle = map.addCircle(new CircleOptions()
+                                                .center(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude()))
+                                                .radius(1000)
+                                                .strokeColor(Color.RED)
+                                                .fillColor(Color.argb(48, 0, 0, 255))); // Set blue color with 20% transparency
 
 
+                            }
+                        }
+                    });
+        }
+    }
+    private void notPermissionGrantedLocation(){
+//        LatLng Cyprus = new LatLng(35.05466266197189, 33.22446841746569);
+//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(Cyprus,8));
+
+
+
+                MarkerOptions markerOptions=new MarkerOptions();
+                markerOptions.position(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude()));
+                map.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude())));
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude()),13));
+
+                map.addMarker(markerOptions);
+
+                Circle circle = map.addCircle(new CircleOptions()
+                        .center(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude()))
+                        .radius(1000)
+                        .strokeColor(Color.RED)
+                        .fillColor(Color.argb(48, 0, 0, 255))); // Set blue color with 20% transparency
+
+
+
+    }
 
     public Display_Pet_Fragment() {
         // Required empty public constructor
@@ -99,7 +186,7 @@ public class Display_Pet_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_display__pet_, container, false);
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
         petname = view.findViewById(R.id.petname_textview);
         owner = view.findViewById(R.id.owner_TextView);
         age = view.findViewById(R.id.age_TextView);
@@ -109,6 +196,7 @@ public class Display_Pet_Fragment extends Fragment {
         award = view.findViewById(R.id.award_textView);
         description = view.findViewById(R.id.description_textView);
         phone = view.findViewById(R.id.phoneTextView);
+        petimage=view.findViewById(R.id.roundedImageView);
 
         DocumentReference documentReference = lostCollection.document(id);
 
@@ -135,6 +223,11 @@ public class Display_Pet_Fragment extends Fragment {
                     description.setText(lostRecord.getDescription());
                     phone.setText(lostRecord.getContact());
 
+                    byte[] decodedBytes = Base64.decode(lostRecord.getPic(), Base64.DEFAULT);
+                    // Convert the byte array to a Bitmap
+                    Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                    petimage.setImageBitmap(decodedBitmap);
+
 
                     //the map:
                     SupportMapFragment supportMapFragment= (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_d);
@@ -143,19 +236,16 @@ public class Display_Pet_Fragment extends Fragment {
                         public void onMapReady(@NonNull GoogleMap googleMap) {
 
                             map = googleMap;
+                            if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {
+                                // Permission is not granted. Request it using ActivityResultLauncher.
+                                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+                            } else {
+                                // Permission is granted. Get the location.
 
-                            MarkerOptions markerOptions=new MarkerOptions();
-                            markerOptions.position(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude()));
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude())));
-                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude()),13));
+                                getCurrentLocation();
+                            }
 
-                            googleMap.addMarker(markerOptions);
-
-                            Circle circle = map.addCircle(new CircleOptions()
-                                    .center(new LatLng(lostRecord.getLocation().getLatitude(),lostRecord.getLocation().getLongitude()))
-                                    .radius(1000)
-                                    .strokeColor(Color.RED)
-                                    .fillColor(Color.argb(48, 0, 0, 255))); // Set blue color with 20% transparency
 
 
                         }

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -107,6 +108,14 @@ public class SettingsFragment extends Fragment {
 
 
                 return false;
+            }
+        });
+        Button breedsButton=view.findViewById(R.id.breedsButton);
+        breedsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(SettingsFragment.this)
+                        .navigate(R.id.action_This_to_Breeds);
             }
         });
 

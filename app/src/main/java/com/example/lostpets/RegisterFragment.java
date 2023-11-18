@@ -6,10 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -41,6 +44,9 @@ public class RegisterFragment extends Fragment {
     private CollectionReference usersCollection;
 
     private FragmentRegisterBinding binding;
+
+    private CheckBox showPasswordCheckbox;
+    private EditText passwordEditText;
     public RegisterFragment() {
         // Required empty public constructor
     }
@@ -139,6 +145,26 @@ public class RegisterFragment extends Fragment {
                         .navigate(R.id.action_RegisterFragment_to_LoginFragment);
             }
         });
+
+        showPasswordCheckbox = view.findViewById(R.id.showPasswordRegisterCheckbox);
+        passwordEditText = view.findViewById(R.id.editTextPassword);
+        // Set a listener for checkbox clicks
+        showPasswordCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Toggle password visibility based on checkbox state
+                togglePasswordVisibility(isChecked);
+            }
+        });
+    }
+    private void togglePasswordVisibility(boolean showPassword) {
+        if (showPassword) {
+            // Show the password as plain text
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        } else {
+            // Hide the password with asterisks
+            passwordEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
     }
 
     @Override
