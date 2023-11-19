@@ -276,6 +276,7 @@ public class AddRecordFragment extends Fragment {
             public void onMapReady(@NonNull GoogleMap googleMap) {
 
                 map = googleMap;
+                map.getUiSettings().setZoomControlsEnabled(true);
                 if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
                     // Permission is not granted. Request it using ActivityResultLauncher.

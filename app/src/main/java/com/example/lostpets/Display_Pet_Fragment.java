@@ -104,6 +104,7 @@ public class Display_Pet_Fragment extends Fragment {
                                                 .title("My Location")
                                                 .icon(resizedIcon))
                                         .setTag("Home Marker");
+
 //                                map.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace,10));
 
                                         MarkerOptions markerOptions=new MarkerOptions();
@@ -227,6 +228,7 @@ public class Display_Pet_Fragment extends Fragment {
                         public void onMapReady(@NonNull GoogleMap googleMap) {
 
                             map = googleMap;
+                            map.getUiSettings().setZoomControlsEnabled(true);
                             if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                                     != PackageManager.PERMISSION_GRANTED) {
                                 // Permission is not granted. Request it using ActivityResultLauncher.
