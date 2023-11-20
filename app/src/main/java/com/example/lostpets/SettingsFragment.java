@@ -14,7 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.example.lostpets.Classes.User;
+import com.example.lostpets.databinding.FragmentFavoriteBinding;
+import com.example.lostpets.databinding.FragmentSettingsBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
@@ -24,14 +28,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  */
 public class SettingsFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    FragmentSettingsBinding binding;
+    private TextView usernameTextView;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -49,8 +47,7 @@ public class SettingsFragment extends Fragment {
     public static SettingsFragment newInstance(String param1, String param2) {
         SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,16 +56,26 @@ public class SettingsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        binding = FragmentSettingsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+
+        // Init TextView
+        usernameTextView = view.findViewById(R.id.username_textView_settings);
+        //show users name
+        System.out.println(User.user);
+        usernameTextView.setText(User.user);
+
+
+        return view;
     }
     public void onViewCreated( View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -110,6 +117,51 @@ public class SettingsFragment extends Fragment {
                 return false;
             }
         });
+
+
+        // Click listeners for TextViews
+        TextView accountTextView = view.findViewById(R.id.account_textView_settings);
+        TextView contactUsTextView = view.findViewById(R.id.contactus_textView_settings);
+        TextView termsTextView = view.findViewById(R.id.terms_textView_settings);
+        TextView logoutTextView = view.findViewById(R.id.logout_textView_settings);
+
+        // Click listener for Account
+        accountTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(SettingsFragment.this).navigate(R.id.action_This_to_User);
+            }
+        });
+
+
+
+        // Click listener for Contact Us
+        contactUsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(SettingsFragment.this).navigate(R.id.action_This_to_ContactUs);
+            }
+        });
+
+        // Click listener for Terms and Policies
+        termsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(SettingsFragment.this).navigate(R.id.action_This_to_Terms);
+            }
+        });
+
+        // Click listener for Log Out
+        logoutTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(SettingsFragment.this).navigate(R.id.action_This_to_Login);
+            }
+        });
+
+
+
+
         Button breedsButton=view.findViewById(R.id.breedsButton);
         breedsButton.setOnClickListener(new View.OnClickListener() {
             @Override

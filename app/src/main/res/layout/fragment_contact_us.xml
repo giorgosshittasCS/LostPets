@@ -21,12 +21,13 @@
 
 
         <TextView
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Contact Us"
             android:textAlignment="center"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:textSize="10pt"
             app:layout_constraintBottom_toBottomOf="@+id/include"
             app:layout_constraintEnd_toEndOf="@+id/include"
             app:layout_constraintHorizontal_bias="0.498"
@@ -42,7 +43,7 @@
             android:layout_height="wrap_content"
             android:text="Email: lostpets@gmail.com "
             android:textAlignment="center"
-            android:textSize="8pt"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/include"
             app:layout_constraintEnd_toEndOf="@+id/include"
@@ -58,7 +59,7 @@
             android:layout_height="wrap_content"
             android:text="Report a problem: "
             android:textAlignment="center"
-            android:textSize="8pt"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/include"
             app:layout_constraintEnd_toEndOf="@+id/include"
@@ -70,6 +71,7 @@
         </TextView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
             android:layout_width="380dp"
             android:layout_height="320dp"
             android:background="@drawable/background_shape_pet"
@@ -86,8 +88,8 @@
                 android:layout_width="380dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="text"
                 android:hint="Description"
+                android:inputType="text"
                 android:textAlignment="viewStart"></EditText>
         </androidx.cardview.widget.CardView>
 
@@ -98,9 +100,12 @@
 
             android:foregroundGravity="center"
             android:text="Send"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="130dp"
-            tools:layout_editor_absoluteY="574dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="@+id/include"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.83" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

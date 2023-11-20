@@ -12,4 +12,29 @@
     <string name="back">Back</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="terms_and_policies_content">
+        <![CDATA[
+            **Terms and Policies**
+
+            **1. Acceptance of Terms**
+            By downloading, installing, or using this app, you agree to comply with and be bound by the following terms and conditions.
+
+            **2. User Conduct**
+            - Users must not engage in any unlawful or harmful activities.
+            - Users are responsible for maintaining the confidentiality of their account credentials.
+
+            **3. Privacy Policy**
+            - We respect your privacy and handle your data securely. Refer to our Privacy Policy for detailed information.
+
+            **4. Modifications to Terms**
+            We reserve the right to update or modify these terms and policies at any time without prior notice.
+
+            **5. Contact Us**
+            If you have any questions or concerns regarding these terms, please contact us at support@example.com.
+
+            Thank you for using our app!
+        ]]>
+    </string>
+
 </resources>

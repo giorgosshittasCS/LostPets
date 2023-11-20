@@ -116,6 +116,15 @@
         tools:layout="@layout/fragment_settings">
 
         <action
+            android:id="@+id/action_This_to_Terms"
+            app:destination="@id/TermsFragment" />
+        <action
+            android:id="@+id/action_This_to_Login"
+            app:destination="@id/LoginFragment" />
+        <action
+            android:id="@+id/action_This_to_ContactUs"
+            app:destination="@id/ContactUsFragment" />
+        <action
             android:id="@+id/action_This_to_Add"
             app:destination="@id/RecordFragment" />
         <action
@@ -222,7 +231,32 @@
             app:destination="@id/UserProfileFragment" />
 
     </fragment>
+    <fragment
+        android:id="@+id/TermsFragment"
+        android:name="com.example.lostpets.TermsFragment"
+        android:label="TermsFragment"
+        tools:layout="@layout/fragment_terms">
 
+        <action
+            android:id="@+id/action_This_to_Add"
+            app:destination="@id/RecordFragment" />
+        <action
+            android:id="@+id/action_This_to_Display"
+            app:destination="@id/DisplayPetFragment" />
+        <action
+            android:id="@+id/action_This_to_Settings"
+            app:destination="@id/SettingsFragment" />
+        <action
+            android:id="@+id/action_This_to_Favourites"
+            app:destination="@id/FavFragment" />
+        <action
+            android:id="@+id/action_This_to_Home"
+            app:destination="@id/HomePageFragment" />
+        <action
+            android:id="@+id/action_This_to_User"
+            app:destination="@id/UserProfileFragment" />
+
+    </fragment>
 <!--    <fragment-->
 <!--        android:id="@+id/nav_add"-->
 <!--        android:name="com.example.lostpets.AddRecordFragment"-->
