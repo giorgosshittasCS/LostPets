@@ -10,17 +10,19 @@
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
-        android:layout_width="407dp"
-        android:layout_height="646dp"
+        android:layout_width="405dp"
+        android:layout_height="652dp"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2">
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        tools:layout_editor_absoluteX="2dp">
 
         <ListView
             android:id="@+id/favoritePetsView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="8dp"
+
+            android:layout_marginTop="0dp"
             android:divider="#F0EAD2"
             android:dividerHeight="15dp">
 
@@ -29,8 +31,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_width="411dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

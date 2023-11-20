@@ -32,8 +32,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout10"
-        android:layout_width="404dp"
-        android:layout_height="64dp"
+        android:layout_width="435dp"
+        android:layout_height="66dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
