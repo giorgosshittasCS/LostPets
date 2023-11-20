@@ -166,12 +166,40 @@ public class UserProfileFragment extends Fragment {
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map<String, Object> updates = new HashMap<>();
-                updates.put("username", username_edit_text.getText().toString());
-                updates.put("password", password_edit_text.getText().toString());
-                updates.put("phone_number", phone_edit_text.getText().toString());
-                docRef.update(updates);
-                Toast.makeText(getContext().getApplicationContext(), "Account Updated Successfully", Toast.LENGTH_SHORT).show();
+
+                User temp_user;
+
+                // Create a query to filter the collection by the `title` attribute
+                Query query = usersCollection.whereEqualTo("username", username_edit_text.getText().toString());
+                // Execute the query and get the results
+                Task<QuerySnapshot> task = query.get();
+                task.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot querySnapshot) {
+                        // Check if any documents were found
+                        if (!querySnapshot.isEmpty()) {
+                            Toast toast = Toast.makeText(getContext().getApplicationContext(), "This username is already used", Toast.LENGTH_SHORT);
+                            toast.show();
+                        } else {
+                            User user = new User(username_edit_text.getText().toString(), password_edit_text.getText().toString(), password_edit_text.getText().toString());
+
+                            Map<String,Object> pdt = new HashMap<>();
+                            pdt.put("username", username_edit_text.getText().toString());
+                            pdt.put("password", password_edit_text.getText().toString());
+                            pdt.put("phone_number", phone_edit_text.getText().toString());
+
+                            //make the api call to add the user.( calculate the max id and +1 that the new)
+                            docRef.update(pdt).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(getContext().getApplicationContext(), "Account Updated Successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }
+                    }
+                });
+
 
             }
         });
