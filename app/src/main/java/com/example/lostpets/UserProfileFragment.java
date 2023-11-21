@@ -177,13 +177,14 @@ public class UserProfileFragment extends Fragment {
                     @Override
                     public void onSuccess(QuerySnapshot querySnapshot) {
                         // Check if any documents were found
-                        if (!querySnapshot.isEmpty()) {
+                        if (!querySnapshot.isEmpty() && !querySnapshot.getDocuments().get(0).toObject(User.class).getUsername().equals(User.user)) {
                             Toast toast = Toast.makeText(getContext().getApplicationContext(), "This username is already used", Toast.LENGTH_SHORT);
                             toast.show();
                         } else {
                             User user = new User(username_edit_text.getText().toString(), password_edit_text.getText().toString(), password_edit_text.getText().toString());
 
                             Map<String,Object> pdt = new HashMap<>();
+                            User.user = username_edit_text.getText().toString();
                             pdt.put("username", username_edit_text.getText().toString());
                             pdt.put("password", password_edit_text.getText().toString());
                             pdt.put("phone_number", phone_edit_text.getText().toString());

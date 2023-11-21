@@ -128,7 +128,7 @@ public class FavoriteFragment extends Fragment {
 
     private void displayFavoriteList() {
         favoritepets = new ArrayList<Favorites>();
-        db.collection("favorites") // Replace "movies" with your collection name
+        db.collection("favorites").whereEqualTo("userId",User.user) // Replace "movies" with your collection name
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
