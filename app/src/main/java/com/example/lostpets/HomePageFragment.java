@@ -105,23 +105,23 @@ public class HomePageFragment extends Fragment {
                             Log.w(TAG, "Listen error", e);
                             return;
                         }
-//                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
-//                            switch (change.getType()) {
-//                                case ADDED:
-//                                   // Log.d(TAG, "New favorite:" + change.getDocument().getData());
-//                                    break;
-//                                case MODIFIED:
-//                                  //  Log.d(TAG, "Modified favorite:" + change.getDocument().getData());
-//                                    break;
-//                                case REMOVED:
-//                                   // Log.d(TAG, "Removed favorite:" + change.getDocument().getData());
-//                                    break;
-//                            }
-//
-//                            String source = querySnapshot.getMetadata().isFromCache() ?
-//                                    "local cache" : "server";
-//                            Log.d(TAG, "Data fetched from " + source);
-//                        }
+                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
+                            switch (change.getType()) {
+                                case ADDED:
+                                   Log.d("new", "New favorite:");
+                                    break;
+                                case MODIFIED:
+                                  Log.d("modified", "Modified favorite:");
+                                    break;
+                                case REMOVED:
+                                    Log.d("removed", "Removed favorite:");
+                                    break;
+                            }
+
+                            String source = querySnapshot.getMetadata().isFromCache() ?
+                                    "local cache" : "server";
+                            Log.d(TAG, "Data fetched from " + source);
+                        }
                     }
                 });
 
