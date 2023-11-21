@@ -57,44 +57,40 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         FirebaseApp.initializeApp(this);
-
-//        findViewById(R.id.button_login).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), 0 /* Request code */, intent,
-//                        PendingIntent.FLAG_IMMUTABLE);
-//
-//                String channelId = "fcm_default_channel";
-//                Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//                NotificationCompat.Builder notificationBuilder =
-//                        new NotificationCompat.Builder(getBaseContext(), channelId)
-//                                .setSmallIcon(R.mipmap.ic_launcher)
-//                                .setContentTitle("FCM Message")
-//                                .setContentText("Hello World")
-//                                .setAutoCancel(true)
-//                                .setSound(defaultSoundUri)
-//                                .setContentIntent(pendingIntent);
-//
-//                NotificationManager notificationManager =
-//                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//                // Since android Oreo notification channel is needed.
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                    NotificationChannel channel = new NotificationChannel(channelId,
-//                            "Channel human readable title",
-//                            NotificationManager.IMPORTANCE_DEFAULT);
-//                    notificationManager.createNotificationChannel(channel);
-//                }
-//
-//                notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-//            }
-//        });
+        subscribeTopic();
 
 
     }
+    private void subscribeTopic(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("Fail", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
 
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        Log.d("Token", token);
+                    }
+                });
+        FirebaseMessaging.getInstance().subscribeToTopic("example")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Subscribed";
+                        if (!task.isSuccessful()) {
+                            msg = "Subscribe failed";
+                        }
+                        Log.d("Sub", msg);
+                    }
+                });
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

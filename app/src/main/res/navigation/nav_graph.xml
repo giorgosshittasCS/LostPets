@@ -234,7 +234,7 @@
     <fragment
         android:id="@+id/TermsFragment"
         android:name="com.example.lostpets.TermsFragment"
-        android:label="TermsFragment"
+        android:label="TermsFra§gment"
         tools:layout="@layout/fragment_terms">
 
         <action

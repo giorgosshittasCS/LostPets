@@ -43,6 +43,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
+//import com.google.firebase.messaging.AndroidConfig;
+//import com.google.firebase.messaging.AndroidNotification;
+//import com.google.firebase.messaging.ApnsConfig;
+//import com.google.firebase.messaging.Aps;
+//import com.google.firebase.messaging.ApsAlert;
+//import com.google.firebase.messaging.BatchResponse;
+//import com.google.firebase.messaging.FirebaseMessagingException;
+//import com.google.firebase.messaging.Message;
+//import com.google.firebase.messaging.MulticastMessage;
+//import com.google.firebase.messaging.Notification;
+//import com.google.firebase.messaging.SendResponse;
+//import com.google.firebase.messaging.TopicManagementResponse;
+//import com.google.firebase.messaging.WebpushConfig;
+//import com.google.firebase.messaging.WebpushFcmOptions;
+//import com.google.firebase.messaging.WebpushNotification;
 import com.example.lostpets.Classes.LostRecord;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -58,11 +74,15 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -259,12 +279,13 @@ public class AddRecordFragment extends Fragment {
                             .addOnSuccessListener(documentReference -> {
                                 // Show a success message
                                 Toast.makeText(requireContext(), "Info Saved Successfully", Toast.LENGTH_SHORT).show();
+                                //sendFCMNotification();
                                 NavHostFragment.findNavController(AddRecordFragment.this)
                                         .navigate(R.id.action_This_to_Home);
                             });
                 }
 
-                sendFCMNotification();
+
 
             }
         });
@@ -381,49 +402,11 @@ public class AddRecordFragment extends Fragment {
                 // Convert the byte array to a Base64 string
                 base64String = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-//                byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
-//
-//                // Convert the byte array to a Bitmap
-//                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-//                imageFrame.setImageBitmap(decodedBitmap);
-                // Now you can use base64String as needed (store it, send it to a server, etc.)
-                // Note: You might want to handle permission checks and other error scenarios here
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-        private void sendFCMNotification() {
-        Intent intent = new Intent(getContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0 /* Request code */, intent,
-                PendingIntent.FLAG_IMMUTABLE);
-
-        String channelId = "fcm_default_channel";
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(getContext(), channelId)
-                        .setSmallIcon(R.drawable.dog)
-                        .setContentTitle("Another dog \uD83D\uDC36 is missing \uD83D\uDE14!!")
-                        .setContentText("Can you help finding it? ")
-                        .setAutoCancel(true)
-                        .setLargeIcon( BitmapFactory.decodeResource(getResources(), R.drawable.dog))
-                        .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
-
-        NotificationManager notificationManager =
-                (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-        // Since android Oreo notification channel is needed.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(channelId,
-                    "Channel human readable title",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-    }
 
 }
